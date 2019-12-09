@@ -5134,3 +5134,428 @@
 [09-Dec-2019 01:30:28 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
 [09-Dec-2019 01:30:28 Asia/Tokyo] デバッグ：ホームフラグ：
 [09-Dec-2019 01:30:28 Asia/Tokyo] デバッグ：ゲームをリセットしました
+[10-Dec-2019 00:09:52 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 00:09:52 Asia/Tokyo] デバッグ：Array
+(
+    [start] => クエスト開始
+)
+
+[10-Dec-2019 00:09:52 Asia/Tokyo] デバッグ：スタートフラグ：1
+[10-Dec-2019 00:09:52 Asia/Tokyo] デバッグ：リスタートフラグ：1
+[10-Dec-2019 00:09:52 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 00:09:52 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 00:09:52 Asia/Tokyo] デバッグ：ゲームスタート
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：Array
+(
+    [createPlayer] => プレイヤーを召喚
+)
+
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：1
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：ホームフラグ：1
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：プレイヤーを生成します
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：ステータスを生成します
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：プレイヤータイプ：11
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：プレイヤー名前：忍者
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：プレイヤー画像：img/ninja.png
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：＜プレイヤーステータス＞
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：HP：400
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：MP：111
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：力：6
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：魔力：14
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：物理防御：9
+[10-Dec-2019 00:09:54 Asia/Tokyo] デバッグ：魔法防御：11
+[10-Dec-2019 00:09:55 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 00:09:55 Asia/Tokyo] デバッグ：Array
+(
+    [home] => 町へ行く
+)
+
+[10-Dec-2019 00:09:55 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 00:09:55 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 00:09:55 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 00:09:55 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 00:11:37 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 00:11:37 Asia/Tokyo] デバッグ：Array
+(
+    [home] => 町へ行く
+)
+
+[10-Dec-2019 00:11:37 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 00:11:37 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 00:11:37 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 00:11:37 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 00:48:02 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:48:02 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 00:48:02 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:48:02 Asia/Tokyo] PHP Fatal error:  Uncaught Error: Call to undefined function debugLogStart() in /Applications/MAMP/htdocs/objective-git/index.php:9
+Stack trace:
+#0 {main}
+  thrown in /Applications/MAMP/htdocs/objective-git/index.php on line 9
+[10-Dec-2019 00:49:09 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:49:09 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 00:49:09 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:49:09 Asia/Tokyo] PHP Notice:  Undefined variable: trainingFlg in /Applications/MAMP/htdocs/objective-git/index.php on line 153
+[10-Dec-2019 00:49:55 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:49:55 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 00:49:55 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:50:03 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:50:03 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 00:50:03 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:50:03 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 00:50:03 Asia/Tokyo] デバッグ：Array
+(
+    [start] => クエスト開始
+)
+
+[10-Dec-2019 00:50:03 Asia/Tokyo] デバッグ：スタートフラグ：1
+[10-Dec-2019 00:50:03 Asia/Tokyo] デバッグ：リスタートフラグ：1
+[10-Dec-2019 00:50:03 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 00:50:03 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 00:50:03 Asia/Tokyo] デバッグ：ゲームスタート
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：Array
+(
+    [createPlayer] => プレイヤーを召喚
+)
+
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：1
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：ホームフラグ：1
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：プレイヤーを生成します
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：ステータスを生成します
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：プレイヤータイプ：30
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：プレイヤー名前：剣士♂
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：プレイヤー画像：img/soldier_man.png
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：＜プレイヤーステータス＞
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：HP：765
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：MP：243
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：力：77
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：魔力：45
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：物理防御：73
+[10-Dec-2019 00:50:04 Asia/Tokyo] デバッグ：魔法防御：46
+[10-Dec-2019 00:50:05 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:50:05 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 00:50:05 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 00:50:05 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 00:50:05 Asia/Tokyo] デバッグ：Array
+(
+    [home] => 町へ行く
+)
+
+[10-Dec-2019 00:50:05 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 00:50:05 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 00:50:05 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 00:50:05 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:14:31 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:14:31 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:14:31 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:14:31 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:14:31 Asia/Tokyo] デバッグ：Array
+(
+    [restart] => リセット
+)
+
+[10-Dec-2019 01:14:31 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:14:31 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:14:31 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:14:31 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:14:31 Asia/Tokyo] デバッグ：ゲームをリセットしました
+[10-Dec-2019 01:14:39 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:14:39 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:14:39 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:14:39 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:14:39 Asia/Tokyo] デバッグ：Array
+(
+    [start] => クエスト開始
+)
+
+[10-Dec-2019 01:14:39 Asia/Tokyo] デバッグ：スタートフラグ：1
+[10-Dec-2019 01:14:39 Asia/Tokyo] デバッグ：リスタートフラグ：1
+[10-Dec-2019 01:14:39 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:14:39 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:14:39 Asia/Tokyo] デバッグ：ゲームスタート
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：Array
+(
+    [createPlayer] => プレイヤーを召喚
+)
+
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：1
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：ホームフラグ：1
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：プレイヤーを生成します
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：ステータスを生成します
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：プレイヤータイプ：11
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：プレイヤー名前：忍者
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：プレイヤー画像：img/ninja.png
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：＜プレイヤーステータス＞
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：HP：413
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：MP：111
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：力：7
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：魔力：11
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：物理防御：5
+[10-Dec-2019 01:14:40 Asia/Tokyo] デバッグ：魔法防御：10
+[10-Dec-2019 01:14:41 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:14:41 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:14:41 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:14:41 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:14:41 Asia/Tokyo] デバッグ：Array
+(
+    [home] => 町へ行く
+)
+
+[10-Dec-2019 01:14:41 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:14:41 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:14:41 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:14:41 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:14:44 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:14:44 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:14:44 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:14:44 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:14:44 Asia/Tokyo] デバッグ：Array
+(
+    [training] => 修行
+)
+
+[10-Dec-2019 01:14:44 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:14:44 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:14:44 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:14:44 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:14:44 Asia/Tokyo] デバッグ：ゲームをリセットしました
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：Array
+(
+    [start] => クエスト開始
+)
+
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：スタートフラグ：1
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：リスタートフラグ：1
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：トレーニングフラグ：
+[10-Dec-2019 01:16:43 Asia/Tokyo] デバッグ：ゲームスタート
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：Array
+(
+    [createPlayer] => プレイヤーを召喚
+)
+
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：1
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：ホームフラグ：1
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：トレーニングフラグ：1
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：プレイヤーを生成します
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：ステータスを生成します
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：プレイヤータイプ：40
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：プレイヤー名前：悪魔の子
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：プレイヤー画像：img/akuma_baby.png
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：＜プレイヤーステータス＞
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：HP：1198
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：MP：548
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：力：101
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：魔力：107
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：物理防御：105
+[10-Dec-2019 01:16:44 Asia/Tokyo] デバッグ：魔法防御：111
+[10-Dec-2019 01:16:45 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:16:45 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:16:45 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:16:45 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:16:45 Asia/Tokyo] デバッグ：Array
+(
+    [home] => 町へ行く
+)
+
+[10-Dec-2019 01:16:45 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:16:45 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:16:45 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:16:45 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:16:45 Asia/Tokyo] デバッグ：トレーニングフラグ：
+[10-Dec-2019 01:16:46 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:16:46 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:16:46 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:16:46 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:16:46 Asia/Tokyo] デバッグ：Array
+(
+    [training] => 修行
+)
+
+[10-Dec-2019 01:16:46 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:16:46 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:16:46 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:16:46 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:16:46 Asia/Tokyo] デバッグ：トレーニングフラグ：
+[10-Dec-2019 01:20:25 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:20:25 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:20:25 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:20:25 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:20:25 Asia/Tokyo] デバッグ：Array
+(
+    [training] => 修行
+)
+
+[10-Dec-2019 01:20:25 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:20:25 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:20:25 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:20:25 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:20:25 Asia/Tokyo] デバッグ：トレーニングフラグ：
+[10-Dec-2019 01:20:33 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:20:33 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:20:33 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:20:33 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:20:33 Asia/Tokyo] デバッグ：Array
+(
+    [home] => 町へ戻る
+)
+
+[10-Dec-2019 01:20:33 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:20:33 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:20:33 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:20:33 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:20:33 Asia/Tokyo] デバッグ：トレーニングフラグ：
+[10-Dec-2019 01:20:36 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:20:36 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:20:36 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:20:36 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:20:36 Asia/Tokyo] デバッグ：Array
+(
+    [training] => 修行
+)
+
+[10-Dec-2019 01:20:36 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:20:36 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:20:36 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:20:36 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:20:36 Asia/Tokyo] デバッグ：トレーニングフラグ：
+[10-Dec-2019 01:23:05 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:05 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:23:05 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:05 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:23:05 Asia/Tokyo] デバッグ：Array
+(
+    [training] => 修行
+)
+
+[10-Dec-2019 01:23:05 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:23:05 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:23:05 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:23:05 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:23:05 Asia/Tokyo] デバッグ：トレーニングフラグ：
+[10-Dec-2019 01:23:07 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:07 Asia/Tokyo] デバッグ：「　Ajax　(トレーニング：走る）
+[10-Dec-2019 01:23:07 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:07 Asia/Tokyo] PHP Fatal error:  Uncaught Error: Call to undefined function debugLogStart() in /Applications/MAMP/htdocs/objective-git/ajaxRun.php:8
+Stack trace:
+#0 {main}
+  thrown in /Applications/MAMP/htdocs/objective-git/ajaxRun.php on line 8
+[10-Dec-2019 01:23:16 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:16 Asia/Tokyo] デバッグ：「　Ajax　(トレーニング：走る）
+[10-Dec-2019 01:23:16 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:16 Asia/Tokyo] PHP Fatal error:  Uncaught Error: Call to undefined function debugLogStart() in /Applications/MAMP/htdocs/objective-git/ajaxRun.php:8
+Stack trace:
+#0 {main}
+  thrown in /Applications/MAMP/htdocs/objective-git/ajaxRun.php on line 8
+[10-Dec-2019 01:23:17 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:17 Asia/Tokyo] デバッグ：「　Ajax　(トレーニング：走る）
+[10-Dec-2019 01:23:17 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:17 Asia/Tokyo] PHP Fatal error:  Uncaught Error: Call to undefined function debugLogStart() in /Applications/MAMP/htdocs/objective-git/ajaxRun.php:8
+Stack trace:
+#0 {main}
+  thrown in /Applications/MAMP/htdocs/objective-git/ajaxRun.php on line 8
+[10-Dec-2019 01:23:19 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:19 Asia/Tokyo] デバッグ：「　Ajax　(トレーニング：走る）
+[10-Dec-2019 01:23:19 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:19 Asia/Tokyo] PHP Fatal error:  Uncaught Error: Call to undefined function debugLogStart() in /Applications/MAMP/htdocs/objective-git/ajaxRun.php:8
+Stack trace:
+#0 {main}
+  thrown in /Applications/MAMP/htdocs/objective-git/ajaxRun.php on line 8
+[10-Dec-2019 01:23:22 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:22 Asia/Tokyo] デバッグ：「　Ajax　(トレーニング：走る）
+[10-Dec-2019 01:23:22 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:22 Asia/Tokyo] PHP Fatal error:  Uncaught Error: Call to undefined function debugLogStart() in /Applications/MAMP/htdocs/objective-git/ajaxRun.php:8
+Stack trace:
+#0 {main}
+  thrown in /Applications/MAMP/htdocs/objective-git/ajaxRun.php on line 8
+[10-Dec-2019 01:23:31 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:31 Asia/Tokyo] デバッグ：「　Ajax　(トレーニング：走る）
+[10-Dec-2019 01:23:31 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:31 Asia/Tokyo] PHP Fatal error:  Uncaught Error: Call to undefined function debugLogStart() in /Applications/MAMP/htdocs/objective-git/ajaxRun.php:8
+Stack trace:
+#0 {main}
+  thrown in /Applications/MAMP/htdocs/objective-git/ajaxRun.php on line 8
+[10-Dec-2019 01:23:40 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:40 Asia/Tokyo] デバッグ：「　Ajax　(トレーニング：走る）
+[10-Dec-2019 01:23:40 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:23:40 Asia/Tokyo] PHP Fatal error:  Uncaught Error: Call to undefined function debugLogStart() in /Applications/MAMP/htdocs/objective-git/ajaxRun.php:8
+Stack trace:
+#0 {main}
+  thrown in /Applications/MAMP/htdocs/objective-git/ajaxRun.php on line 8
+[10-Dec-2019 01:24:20 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:24:20 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:24:20 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:24:20 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:24:20 Asia/Tokyo] デバッグ：Array
+(
+    [training] => 修行
+)
+
+[10-Dec-2019 01:24:20 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:24:20 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:24:20 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:24:20 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:24:20 Asia/Tokyo] デバッグ：トレーニングフラグ：
+[10-Dec-2019 01:24:23 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:24:23 Asia/Tokyo] デバッグ：「　Ajax　(トレーニング：走る）
+[10-Dec-2019 01:24:23 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:24:23 Asia/Tokyo] デバッグ：POST送信があります。
+[10-Dec-2019 01:24:23 Asia/Tokyo] デバッグ：Ajax処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+[10-Dec-2019 01:24:53 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:24:53 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:24:53 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:24:53 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:24:53 Asia/Tokyo] デバッグ：Array
+(
+    [home] => 町へ戻る
+)
+
+[10-Dec-2019 01:24:53 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:24:53 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:24:53 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:24:53 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:24:53 Asia/Tokyo] デバッグ：トレーニングフラグ：
+[10-Dec-2019 01:25:01 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:25:01 Asia/Tokyo] デバッグ：「ゲーム開始
+[10-Dec-2019 01:25:01 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:25:01 Asia/Tokyo] デバッグ：ポスト送信あり
+[10-Dec-2019 01:25:01 Asia/Tokyo] デバッグ：Array
+(
+    [training] => 修行
+)
+
+[10-Dec-2019 01:25:01 Asia/Tokyo] デバッグ：スタートフラグ：
+[10-Dec-2019 01:25:01 Asia/Tokyo] デバッグ：リスタートフラグ：
+[10-Dec-2019 01:25:01 Asia/Tokyo] デバッグ：プレイヤー生成フラグ：
+[10-Dec-2019 01:25:01 Asia/Tokyo] デバッグ：ホームフラグ：
+[10-Dec-2019 01:25:01 Asia/Tokyo] デバッグ：トレーニングフラグ：
+[10-Dec-2019 01:25:02 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:25:02 Asia/Tokyo] デバッグ：「　Ajax　(トレーニング：走る）
+[10-Dec-2019 01:25:02 Asia/Tokyo] デバッグ：「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「
+[10-Dec-2019 01:25:02 Asia/Tokyo] デバッグ：POST送信があります。
+[10-Dec-2019 01:25:02 Asia/Tokyo] デバッグ：Ajax処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
