@@ -31,7 +31,7 @@ table td{
     text-align: center;
 }
 
-input , .menu div{
+input ,button, .menu div{
     display: inline-block;
     width: 150px;
     background: #000000;
@@ -67,13 +67,24 @@ input:hover , .menu div:hover{
 
 .popup{
     display: none;
-    width: 80%;
     margin: 70px 70px;
     border: 1px solid #FFFFFF;
     background: rgba(0, 0, 0, 1);
     position: absolute;
 
 }
+
+.popup-2{
+    display: none;
+    height: 200px;
+    width: 500px;
+    line-height: 200px;
+    border: 1px solid #FFFFFF;
+    background: rgba(0, 0, 0, 1);
+    position: absolute;
+
+}
+
 
 .status-panel{
     display: flex;
@@ -83,4 +94,13 @@ input:hover , .menu div:hover{
 .block{
     padding:20px;
     box-sizing: border-box;
+}
+
+.click{
+    width: 120px;
+    background: #000000;
+}
+
+.magic-screen{
+    position: relative;
 }

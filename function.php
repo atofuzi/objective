@@ -127,10 +127,12 @@ class Player extends Creature{
     public function getMp(){
         return $this->mp;
     }
-    public function setMagicSkill($str){
-        $this->magic_skill .= $str;
+    public function setMagic($str){
+        array_push($this->magic_skill,$str);
     }
-
+    public function getMagic(){
+        return $this->magic_skill;
+    }
     public function getType(){
         return $this->type;
     }
@@ -167,6 +169,13 @@ class Type{
     const LANK4 = 40;
   }
 
+//魔法
+
+class Magic{
+    const HEEL = "ヒール";
+    const ATTACK_BOOST = "アタックブースト";
+    const HOLY = "ホーリー";
+  }
 function createStatus($object){
     debug('ステータスを生成します');
     debug('プレイヤータイプ：'.$object->getType());

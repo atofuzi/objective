@@ -154,49 +154,52 @@ if(!empty($_POST)){
                     </form>
                 </div>
             <?php }elseif($trainingFlg){ ?>
-                <div class="run-screen" style="display: none;">
-                <div class="status-panel">
-                        <div class="block">
-                            <p>レア度：
-                            <?php
-                                for($i=0; $i<getRarity($_SESSION['player']); $i++){
-                                    echo "★";
-                                }
-                            ?>
-                            </p>
-                            <p><?php echo $_SESSION['player']->getName(); ?></p>
-                            <img src="<?php echo $_SESSION['player']->getImg(); ?>">
-                        </div>
-                        <div class="block">
-                            <table>
-                                <tr>
-                                    <td>HP</td>
-                                    <td><?php echo $_SESSION['player']->getHp(); ?></td>
-                                    <td>MP</td>
-                                    <td><?php echo $_SESSION['player']->getMp(); ?></td>
-                                </tr>
-                                <tr>
-                                    <td>力</td>
-                                    <td><?php echo $_SESSION['player']->getPower(); ?></td>
-                                    <td>魔力</td>
-                                    <td><?php echo $_SESSION['player']->getMagicPower(); ?></td>
-                                </tr>
-                                <tr>
-                                    <td>物理防御</td>
-                                    <td><?php echo $_SESSION['player']->getDefense(); ?></td>
-                                    <td>魔法防御</td>
-                                    <td><?php echo $_SESSION['player']->getMagicDefense(); ?></td>
-                                </tr>
-                            </table>
+                <div id="ajaxreload">
+                    <div class="run-screen">
+                        <div class="status-panel">
+                            <div class="block">
+                                <p>レア度：
+                                <?php
+                                    for($i=0; $i<getRarity($_SESSION['player']); $i++){
+                                        echo "★";
+                                    }
+                                ?>
+                                </p>
+                                <p><?php echo $_SESSION['player']->getName(); ?></p>
+                                <img src="<?php echo $_SESSION['player']->getImg(); ?>">
+                            </div>
+                            <div class="block">
+                                <table>
+                                    <tr>
+                                        <td>HP</td>
+                                        <td><?php echo $_SESSION['player']->getHp(); ?></td>
+                                        <td>MP</td>
+                                        <td><?php echo $_SESSION['player']->getMp(); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>力</td>
+                                        <td><?php echo $_SESSION['player']->getPower(); ?></td>
+                                        <td>魔力</td>
+                                        <td><?php echo $_SESSION['player']->getMagicPower(); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>物理防御</td>
+                                        <td><?php echo $_SESSION['player']->getDefense(); ?></td>
+                                        <td>魔法防御</td>
+                                        <td><?php echo $_SESSION['player']->getMagicDefense(); ?></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="menu" style="position: absolute; bottom: 0; left: 40px;">
-                    <form method="post">
-                        <div class="js-click-run" aria-hidden="true" data-run="走る">走る</div>
+ 
+                <div class="menu">
+                  
+                        <div class="js-click-run">走る</div>
                         <div class="js-click-meditation">瞑想する</div>
                         <div class="js-click-magic">魔法を覚える</div>
+                    <form method="post">
                         <input type="submit" name="home" value="町へ戻る">
                     </form>
                 </div>
@@ -213,6 +216,113 @@ if(!empty($_POST)){
         var $game_screen = $('.game-screen');
         var popFlg = false;
 
+        
+
+        
+        //修行：走る
+        function AjaxRun() {
+        
+        // jQueryのajaxメソッドを使用しajax通信
+        $.ajax({
+            type: "POST", // GETメソッドで通信
+
+            url: "ajaxRun.php", // 取得先のURL
+
+            data: { training_run : "run"},
+
+            cache: false, // キャッシュしないで読み込み
+
+            // 通信成功時に呼び出されるコールバック
+            success: function (data) {
+
+                $('#ajaxreload').html(data);
+
+            },
+            // 通信エラー時に呼び出されるコールバック
+            error: function () {
+
+                alert("Ajax通信エラー");
+
+
+            }
+        });
+
+        }
+
+        //修行：瞑想
+        function AjaxMagic(magic) {
+        
+        // jQueryのajaxメソッドを使用しajax通信
+        $.ajax({
+            type: "POST", // GETメソッドで通信
+
+            url: "ajaxMagic.php", // 取得先のURL
+
+            data: { select_magic : magic},
+
+            cache: false, // キャッシュしないで読み込み
+
+            // 通信成功時に呼び出されるコールバック
+            success: function (data) {
+
+                $('#ajaxreload').html(data);
+
+            },
+            // 通信エラー時に呼び出されるコールバック
+            error: function () {
+
+                alert("Ajax通信エラー");
+
+
+            }
+        });
+
+        }
+
+
+        //修行：魔法を覚える
+        function AjaxMeditation() {
+        
+        // jQueryのajaxメソッドを使用しajax通信
+        $.ajax({
+            type: "POST", // GETメソッドで通信
+
+            url: "ajaxMeditation.php", // 取得先のURL
+
+            data: { training_meditation : "meditation"},
+
+            cache: false, // キャッシュしないで読み込み
+
+            // 通信成功時に呼び出されるコールバック
+            success: function (data) {
+
+                $('#ajaxreload').html(data);
+
+            },
+            // 通信エラー時に呼び出されるコールバック
+            error: function () {
+
+                alert("Ajax通信エラー");
+
+
+            }
+        });
+
+        }
+
+
+
+        //修行メニューを選択した場合のアクション
+        $(document).on('click', function(e) {
+            if($(e.target).is($('.js-click-run'))){
+                AjaxRun();
+            }else if($(e.target).is($('.js-click-meditation'))){
+                AjaxMeditation();
+            }else if($(e.target).is($('.js-click-magic'))){
+                var magic = "";
+                AjaxMagic(magic);
+            }
+        });
 
         //ステータスポップアップ機能
         $(document).on('click', function(e) {
@@ -221,34 +331,21 @@ if(!empty($_POST)){
                 popFlg = false;
             }
             else if($(e.target).is($status_show)){
-                $popup.addClass('show').fadeIn();
+                $popup.fadeIn();
                 popFlg = true;
+            }else if($(e.target).is($('.magic'))){
+                console.log('魔法クリック');
+                $('.popup-2').fadeIn(1000);
+                setTimeout(function(){ 
+
+                    $('.popup-2').fadeOut(1000);
+                    var magic = $(e.target).data('magic');
+                    AjaxMagic(magic);
+
+                 }, 2500);
             }
         });
-        
 
-        //修行：走る
-        var $run = $('.js-click-run') || null;
-        var trainingRun = $run.data('run') || null;
-        var $run_screen = $('.run-screen');
-
-        if(trainingRun !== undefined && trainingRun !== null){
-
-            $run.on('click',function(){
-                var $this = $(this);
-                        $.ajax({
-                            type: "POST",
-                            url: "ajaxRun.php",
-                            data: { training_run : trainingRun}
-                        }).done(function(data){
-                            $run_screen.show();
-                            console.log('ajax ok');
-                        }).fail(function(mdg){
-                            console.log('ajax Error');
-                        });           
-            });
-        }
-        
     </script>
 
 </html>
