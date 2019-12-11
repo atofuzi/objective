@@ -15,18 +15,27 @@ if(!empty($_POST['select_magic'])){
     debug('POST送信があります。');
     debug('選んだ魔法は：'.$_POST['select_magic']);
     $select_magic = $_POST['select_magic'];
-    switch($select_magic){
-        case Magic::HEEL :
-            $_SESSION['player']->setMagic(Magic::HEEL);
-            break;
-        case Magic::ATTACK_BOOST :
-            $_SESSION['player']->setMagic(Magic::ATTACK_BOOST);
-            break;
-        case Magic::HOLY :
-            $_SESSION['player']->setMagic(Magic::HOLY);
-        break;
+
+    $err_msg = "";
+
+    if(!(in_array($select_magic , $_SESSION['player']->getMagic()))){
+    
+        switch($select_magic){
+            case Magic::HEEL :
+                $_SESSION['player']->setMagic(Magic::HEEL);
+                break;
+            case Magic::ATTACK_BOOST :
+                $_SESSION['player']->setMagic(Magic::ATTACK_BOOST);
+                break;
+            case Magic::HOLY :
+                $_SESSION['player']->setMagic(Magic::HOLY);
+                break;
         }
+    }else{
+        $err_msg = "取得済みの魔法です！";
+    }
 }
+
 debug(print_r($_SESSION['player']->getMagic(),true));
 debug('Ajax処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
 
@@ -61,7 +70,11 @@ debug('Ajax処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                 </tr>
             </table>
         </div>
-        <div class="popup-2">魔法を覚えました!!!</div>
+        <?php if( !empty($_POST['select_magic']) && empty($err_msg) ){ ?>
+            <div class="popup-2"><?php echo $select_magic."を覚えました!!!"?></div>
+        <?php }elseif( !empty($_POST['select_magic']) && !empty($err_msg) ){ ?>
+            <div class="popup-2"><?php echo $err_msg; ?></div>
+         <?php } ?>
     </div>
    
 </div>

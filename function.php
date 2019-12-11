@@ -26,6 +26,7 @@ $createPlayer = false;
 $restartFlg = false;
 $homeFlg = false;
 $trainingFlg = false;
+$quest = false;
 //$_SESSION = array();
 
 //モンスター格納用
@@ -42,6 +43,9 @@ $player[] = new Player('剣士♂','img/soldier_man.png',Type::LANK3);
 $player[] = new Player('剣士♀','img/soldier_woman.jpg',Type::LANK3_M);
 $player[] = new Player('悪魔の子','img/akuma_baby.png',Type::LANK4);
 
+$quest[] = new Quest('マミーを討伐せよ！',1,'マミー','img/mummy.png');
+$quest[] = new Quest('デーモンを討伐せよ！',2,'マミー','img/demon.png');
+$quest[] = new Quest('イフリートを討伐せよ！',3,'マミー','img/ifrit.png');
 
 //抽象クラス（生き物クラス）
 abstract class Creature{
@@ -157,6 +161,7 @@ class Monster extends Creature{
     }
 }
 
+
 //プレイヤータイプ
 
 class Type{
@@ -247,6 +252,37 @@ function createStatus($object){
             break;
     }
 }
+
+class Quest{
+    protected $questName;
+    protected $questLevel;
+    protected $monster;
+    protected $questImg;
+    protected $questClear = "";
+    
+    public function __construct($str,$num,$name,$img){
+        $this->questName = $str;
+        $this->questLevel = $num;
+        $this->monster = $name;
+        $this->questImg = $img;
+    }
+    public function getQuestName(){
+        return $this->questName;
+    }
+    public function getQuestLevel(){
+        return $this->questLevel;
+    }
+    public function getQuestMonster(){
+        return $this->monster;
+    }
+    public function getQuestImg(){
+        return $this->questImg;
+    }
+    public function setQuestClear(){
+        $this->questClear = "Clear";
+    }
+}
+
 //プレイヤー生成
 function createPlayer(){
     global $player;

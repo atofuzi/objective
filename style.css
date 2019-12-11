@@ -1,7 +1,7 @@
 body{
     background: #000000;
 }
-input,div,p,span{
+input,div,p,span,h2{
     font-size: 12px;
 }
 
@@ -103,4 +103,37 @@ input:hover , .menu div:hover{
 
 .magic-screen{
     position: relative;
+}
+
+.sub-block{
+    text-align: left;
+    margin:10px 0;
+}
+.sub-block h2{
+    margin: 5px 0; 
+}
+.sub-block span{
+    margin: 0 10px; 
+}
+
+.quest-screen{
+    width: 100%;
+    min-height: 500px;
+   
+}
+
+.quest-panel{
+    width: 80%;
+    height: 100px;
+    background: #000000;
+    border: 1px solid #FFFFFF;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.quest-panel img{
+    display: block;
+    width: 10%;
+    float: left;
+    margin: auto;
 }

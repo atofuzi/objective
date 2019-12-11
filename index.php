@@ -3,11 +3,14 @@
 //共通変数・関数ファイルを読込み
 require('function.php');
 
+
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debug('「ゲーム開始');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 
-
+if(!empty($_SESSION) && empty($_POST)){
+    $_SESSION = array();
+}
 
 if(!empty($_POST)){
 
@@ -17,13 +20,15 @@ if(!empty($_POST)){
     $createPlayer  = (!empty($_POST['createPlayer']))? true : false;
     $homeFlg  = (!empty($_POST['home']))? true : false;
     $trainingFlg  = (!empty($_POST['training']))? true : false;
-
+    $questFlg  = (!empty($_POST['quest']))? true : false;
+    
     debug(print_r($_POST,true));
     debug('スタートフラグ：'.$startFlg);
-    debug('リスタートフラグ：'.$startFlg);
+    debug('リスタートフラグ：'.$restartFlg);
     debug('プレイヤー生成フラグ：'.$createPlayer);
-    debug('ホームフラグ：'.$createPlayer);
-    debug('トレーニングフラグ：'.$createPlayer);
+    debug('ホームフラグ：'.$homeFlg);
+    debug('トレーニングフラグ：'.$trainingFlg);
+    debug('クエストフラグ：'.$questFlg);
 
     if($startFlg){
         debug('ゲームスタート');
@@ -34,6 +39,8 @@ if(!empty($_POST)){
     }elseif($homeFlg){
 
     }elseif($trainingFlg){
+
+    }elseif($questFlg){
 
     }else{
         debug('ゲームをリセットしました');
@@ -142,6 +149,21 @@ if(!empty($_POST)){
                                     <td><?php echo $_SESSION['player']->getMagicDefense(); ?></td>
                                 </tr>
                             </table>
+                            <div class="sub-block">
+                                <h2>魔法スキル</h2>
+                                    <?php 
+                                        $magic = $_SESSION['player']->getMagic();
+                                        if(empty($magic)){
+                                            echo "<span>・無し</span>";
+                                        }else{
+                                            foreach($magic as $key => $value){
+                                    ?>
+                                            <span><i class="fas fa-caret-right"></i><?php echo $value; ?></span><br>
+                                    <?php
+                                            }
+                                        }
+                                     ?>  
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -155,7 +177,7 @@ if(!empty($_POST)){
                 </div>
             <?php }elseif($trainingFlg){ ?>
                 <div id="ajaxreload">
-                    <div class="run-screen">
+                    <div class="training-screen">
                         <div class="status-panel">
                             <div class="block">
                                 <p>レア度：
@@ -195,10 +217,28 @@ if(!empty($_POST)){
                 </div>
  
                 <div class="menu">
-                  
                         <div class="js-click-run">走る</div>
                         <div class="js-click-meditation">瞑想する</div>
                         <div class="js-click-magic">魔法を覚える</div>
+                    <form method="post">
+                        <input type="submit" name="home" value="町へ戻る">
+                    </form>
+                </div>
+            <?php }elseif($questFlg){ ?>
+                <div class="quest-screen">
+                    <h2>クエスト一覧</h2>
+                    <?php foreach($quest as $key => $value){ ?>
+                    <div class="quest-panel">
+                        <img src="<?php echo $quest[$key]->getQuestImg();?>">
+                        <div style="float: left;">
+                            <p>QUEST：<?php echo $quest[$key]->getQuestName();?></p>
+                            <p>レベル：<?php echo $quest[$key]->getQuestLevel();?></p>
+                            <p>BOSS：<?php echo $quest[$key]->getQuestMonster();?></p>
+                        </div>
+                    </div>
+                    <?php } ?>
+                </div>
+                <div class="menu">
                     <form method="post">
                         <input type="submit" name="home" value="町へ戻る">
                     </form>
@@ -249,7 +289,8 @@ if(!empty($_POST)){
 
         }
 
-        //修行：瞑想
+
+         //修行：魔法を覚える
         function AjaxMagic(magic) {
         
         // jQueryのajaxメソッドを使用しajax通信
@@ -267,6 +308,10 @@ if(!empty($_POST)){
 
                 $('#ajaxreload').html(data);
 
+                $('.popup-2').fadeIn(1000);
+                setTimeout(function(){ 
+                    $('.popup-2').fadeOut(1000);
+                 }, 2500);
             },
             // 通信エラー時に呼び出されるコールバック
             error: function () {
@@ -280,7 +325,7 @@ if(!empty($_POST)){
         }
 
 
-        //修行：魔法を覚える
+        //修行：瞑想
         function AjaxMeditation() {
         
         // jQueryのajaxメソッドを使用しajax通信
@@ -297,7 +342,6 @@ if(!empty($_POST)){
             success: function (data) {
 
                 $('#ajaxreload').html(data);
-
             },
             // 通信エラー時に呼び出されるコールバック
             error: function () {
@@ -329,20 +373,15 @@ if(!empty($_POST)){
             if( ( $(e.target).is($game_screen) === true || $(e.target).is($status_show) ) && popFlg === true){
                 $popup.fadeOut();
                 popFlg = false;
-            }
-            else if($(e.target).is($status_show)){
+            }else if($(e.target).is($status_show)){
                 $popup.fadeIn();
                 popFlg = true;
+            //修行・魔法でのクリック時の処理
             }else if($(e.target).is($('.magic'))){
                 console.log('魔法クリック');
-                $('.popup-2').fadeIn(1000);
-                setTimeout(function(){ 
+                var magic = $(e.target).data('magic');
 
-                    $('.popup-2').fadeOut(1000);
-                    var magic = $(e.target).data('magic');
-                    AjaxMagic(magic);
-
-                 }, 2500);
+                AjaxMagic(magic);
             }
         });
 
