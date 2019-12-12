@@ -8,6 +8,15 @@ debug('「「「「「「「「「「「「「「「「「「「「「「「「�
 debug('「ゲーム開始');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 
+debug('スタートフラグ：'.$startFlg);
+debug('リスタートフラグ：'.$restartFlg);
+debug('プレイヤー生成フラグ：'.$createPlayer);
+debug('ホームフラグ：'.$homeFlg);
+debug('トレーニングフラグ：'.$trainingFlg);
+debug('クエストフラグ：'.$questFlg);
+debug('バトルフラグ：'.$questFlg);
+debug('セッション：'.print_r($_SESSION,true));
+
 if(!empty($_SESSION) && empty($_POST)){
     $_SESSION = array();
 }
@@ -21,6 +30,7 @@ if(!empty($_POST)){
     $homeFlg  = (!empty($_POST['home']))? true : false;
     $trainingFlg  = (!empty($_POST['training']))? true : false;
     $questFlg  = (!empty($_POST['quest']))? true : false;
+    $battleFlg  = (isset($_POST['quest_number']))? true : false;
     
     debug(print_r($_POST,true));
     debug('スタートフラグ：'.$startFlg);
@@ -29,6 +39,7 @@ if(!empty($_POST)){
     debug('ホームフラグ：'.$homeFlg);
     debug('トレーニングフラグ：'.$trainingFlg);
     debug('クエストフラグ：'.$questFlg);
+    debug('バトルフラグ：'.$questFlg);
 
     if($startFlg){
         debug('ゲームスタート');
@@ -37,18 +48,22 @@ if(!empty($_POST)){
         debug('プレイヤーを生成します');
         createPlayer();
     }elseif($homeFlg){
-
+        debug('ホームへ移動します');
     }elseif($trainingFlg){
-
+        debug('トレーニングへ移動します');
     }elseif($questFlg){
-
+        debug('クエスト選択画面へ移動します');
+    }elseif($battleFlg){
+        debug('バトル画面へ移動します');
+        $number = $_POST['quest_number'];
+        $boss = $quest[$number]->getQuestMonster();
     }else{
         debug('ゲームをリセットしました');
         $_SESSION = array();
     }
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -226,22 +241,54 @@ if(!empty($_POST)){
                 </div>
             <?php }elseif($questFlg){ ?>
                 <div class="quest-screen">
+                    <form method="post">
                     <h2>クエスト一覧</h2>
                     <?php foreach($quest as $key => $value){ ?>
-                    <div class="quest-panel">
-                        <img src="<?php echo $quest[$key]->getQuestImg();?>">
-                        <div style="float: left;">
-                            <p>QUEST：<?php echo $quest[$key]->getQuestName();?></p>
-                            <p>レベル：<?php echo $quest[$key]->getQuestLevel();?></p>
-                            <p>BOSS：<?php echo $quest[$key]->getQuestMonster();?></p>
+                    <button class="quest-panel" name="quest_number" value="<?php echo $key;?>">
+                        <div class="quest-img">
+                            <img src="<?php echo $quest[$key]->getQuestImg();?>">
                         </div>
-                    </div>
+                        <div class="quest-detail">
+                            <div class="quest-title">
+                                <span class="quest-name">QUEST：<?php echo $quest[$key]->getQuestName();?></span>
+                                <span class="quest-level">レベル：<?php echo $quest[$key]->getQuestLevel();?></span>
+                            </div>
+                            <p class="boss-name">BOSS：<?php echo $quest[$key]->getMonsterName();?></p>
+                            <p class="quest-status">clear</p>
+                        </div>
+                    </button>
                     <?php } ?>
                 </div>
                 <div class="menu">
-                    <form method="post">
                         <input type="submit" name="home" value="町へ戻る">
-                    </form>
+                </div>
+            <?php }elseif($battleFlg){ ?>
+                <div class="battle-screen">
+                    <div class="boss-area">
+                        <img src="<?php echo $boss->getImg(); ?>">
+                        <span class="damage">ダメージ</span>
+                    </div>
+                    <div class="player-area">
+                        <div class="player-info">
+                            <div class="player-img">
+                                <img src="<?php echo $_SESSION['player']->getImg();?>">
+                            </div>
+                            <div class="hp-mp">
+                                <p class="hp">HP</p>
+                                <p class="mp">MP</p>
+                            </div>
+                            <div class="command">
+                            <p>こうげき</p>
+                            <p>魔法</p>
+                            <p>逃げる</p>
+                        </div>
+                        </div>
+                        <div class="js-command-list">
+                            <p>ヒール</p>
+                            <p>アタックブースト</p>
+                            <P>ホーリー</p>
+                        </div>
+                    </div>
                 </div>
             <?php } ?>
         </div>

@@ -123,17 +123,151 @@ input:hover , .menu div:hover{
 }
 
 .quest-panel{
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
     width: 80%;
-    height: 100px;
+    height: 120px;
     background: #000000;
     border: 1px solid #FFFFFF;
     margin: 20px auto;
+    padding: 0;
+}
+
+.quest-img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    height: 100px;
+}
+.quest-img img{
+    display: block;
+    width: 60%;
+}
+
+.quest-detail{
+    width: 80%;
+}
+
+.quest-title{
+    border-bottom: 1px solid #FFFFFF;
+    margin: 0 10px;
     overflow: hidden;
 }
 
-.quest-panel img{
-    display: block;
-    width: 10%;
-    float: left;
-    margin: auto;
+.quest-name{
+    font-size: 16px;
+    float:left;
+    padding:5px 0;
+}
+
+.quest-level{
+    float:right;
+    padding: 10px 5px 5px 0;
+}
+
+.boss-name{
+    text-align: left;
+    margin: 10px;
+}
+.quest-status{
+    text-align: right;
+    margin: 0 10px;
+    font-size: 18px;
+    color: yellow;
+}
+.battle-screen{
+    width: 100%;
+}
+
+.boss-area{
+    width: 100%;
+    min-height: 300px;
+    position: relative;
+}
+
+.boss-area img{
+    width: 30%;
+    text-align: center;
+}
+.damage{
+    position: absolute;
+    right: 380px;
+    top:30px;
+}
+.player-area{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.player-info{
+    width: 500px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 5px 10px;
+    padding: 10px;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+}
+.player-img{
+    width: 15%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.player-img img{
+    width: 100%;
+    border-radius: 100%;
+}
+.hp-mp{
+    text-align: left;
+    height: 100px;
+    width: 65%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.hp{
+    position: relative;
+}
+.hp:after{
+    content: "";
+    position: absolute;
+    left: 20px;
+    width: 250px;
+    margin-top: 2px;
+    border-top: 10px solid rgb(23, 250, 23);
+}
+.mp{
+    position: relative;
+}
+.mp:after{
+    content: "";
+    width: 250px;
+    margin-top: 2px;
+    border-top: 10px solid rgb(1, 93, 180);
+    position: absolute;
+    left: 20px;
+}
+
+.command{
+    width: 20%;
+    height: 80px;
+    border-left: 1px solid #FFFFFF;
+}
+.command p{
+  margin: 6px;
+}
+
+.js-command-list{
+    width: 110px;
+    height: 100px;
+    margin: 10px 5px 10px;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
 }
