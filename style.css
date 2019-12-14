@@ -42,7 +42,7 @@ input ,button, .menu div{
     box-sizing: border-box;
 }
 
-input:hover , .menu div:hover{
+input:hover , .menu div:hover ,.command p:hover{
     background: rgb(202, 202, 202);
     color: #000000;
 
@@ -191,12 +191,11 @@ input:hover , .menu div:hover{
 
 .boss-area img{
     width: 30%;
-    text-align: center;
 }
 .damage{
     position: absolute;
     right: 380px;
-    top:30px;
+    top:50px;
 }
 .player-area{
     width: 100%;
@@ -225,34 +224,56 @@ input:hover , .menu div:hover{
     width: 100%;
     border-radius: 100%;
 }
-.hp-mp{
+#hp-mp{
     text-align: left;
     height: 100px;
     width: 65%;
     padding: 5px;
     box-sizing: border-box;
 }
-.hp{
+
+.hp , .mp ,.boss-hp{
+    margin:20px 0;
     position: relative;
 }
-.hp:after{
+.boss-hp{
+    text-align: left;
+    margin-left: 90px;
+}
+.hp-gage{
     content: "";
-    position: absolute;
-    left: 20px;
-    width: 250px;
+    width: 0px;
     margin-top: 2px;
     border-top: 10px solid rgb(23, 250, 23);
+    position: absolute;
+    left: 25px;
+    top:0px;
 }
-.mp{
-    position: relative;
-}
-.mp:after{
+
+.mp-gage{
     content: "";
-    width: 250px;
+    width: 0px;
     margin-top: 2px;
     border-top: 10px solid rgb(1, 93, 180);
     position: absolute;
-    left: 20px;
+    left: 25px;
+    top:0px;
+}
+.boss-hp-gage{
+    content: "";
+    width: 0px;
+    margin-top: 2px;
+    border-top: 10px solid rgb(250, 76, 23);
+    position: absolute;
+    left: 25px;
+    top:18px;
+}
+
+.hp-point,.mp-point{
+    margin:0;
+    position: absolute;
+    left: 25px;
+    top: 12px;
 }
 
 .command{
@@ -264,10 +285,18 @@ input:hover , .menu div:hover{
   margin: 6px;
 }
 
-.js-command-list{
+.magic-list{
     width: 110px;
     height: 100px;
     margin: 10px 5px 10px;
     border: 1px solid #FFFFFF;
     box-sizing: border-box;
 }
+
+.escape{
+    margin:0;
+    padding:0;
+    width: 85px;
+    border: none;
+}
+

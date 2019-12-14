@@ -14,8 +14,8 @@ debug('プレイヤー生成フラグ：'.$createPlayer);
 debug('ホームフラグ：'.$homeFlg);
 debug('トレーニングフラグ：'.$trainingFlg);
 debug('クエストフラグ：'.$questFlg);
-debug('バトルフラグ：'.$questFlg);
-debug('セッション：'.print_r($_SESSION,true));
+debug('バトルフラグ：'.$battleFlg);
+
 
 if(!empty($_SESSION) && empty($_POST)){
     $_SESSION = array();
@@ -32,31 +32,53 @@ if(!empty($_POST)){
     $questFlg  = (!empty($_POST['quest']))? true : false;
     $battleFlg  = (isset($_POST['quest_number']))? true : false;
     
-    debug(print_r($_POST,true));
-    debug('スタートフラグ：'.$startFlg);
-    debug('リスタートフラグ：'.$restartFlg);
-    debug('プレイヤー生成フラグ：'.$createPlayer);
-    debug('ホームフラグ：'.$homeFlg);
-    debug('トレーニングフラグ：'.$trainingFlg);
-    debug('クエストフラグ：'.$questFlg);
-    debug('バトルフラグ：'.$questFlg);
 
     if($startFlg){
         debug('ゲームスタート');
         $_SESSION['start'] = GAME_START;
+        Battle::Reset();
     }elseif($createPlayer){
         debug('プレイヤーを生成します');
         createPlayer();
     }elseif($homeFlg){
         debug('ホームへ移動します');
+        Battle::Reset();
     }elseif($trainingFlg){
         debug('トレーニングへ移動します');
     }elseif($questFlg){
-        debug('クエスト選択画面へ移動します');
+        debug('クエスト選択画面です');
     }elseif($battleFlg){
-        debug('バトル画面へ移動します');
+        debug('バトル画面です');
+        debug('クエストナンバー：'.$_POST['quest_number']);
+        debug('バトルターン：'.$_SESSION['battle_count']);
+
         $number = $_POST['quest_number'];
         $boss = $quest[$number]->getQuestMonster();
+        //プレイヤーが習得している魔法を格納
+        $player_magic =  $_SESSION['player']->getMagic();
+
+        if($_SESSION['battle_count'] === 0){
+
+        //バトル画面で使うプレイヤーステータスをセッションに格納
+        $_SESSION['player_hp'] = $_SESSION['player']->getHp();
+        $_SESSION['player_mp'] = $_SESSION['player']->getMp();
+        $_SESSION['player_power'] = $_SESSION['player']->getPower();
+        $_SESSION['player_magicPower'] = $_SESSION['player']->getMagicPower();
+        $_SESSION['player_defense'] = $_SESSION['player']->getDefense();
+        $_SESSION['player_magicDefense'] = $_SESSION['player']->getMagicDefense();
+
+        //ボスモンスターのステータスをセッションに格納
+        $_SESSION['boss_hp'] = $boss->getHp();
+        $_SESSION['boss_power'] = $boss->getPower();
+        $_SESSION['boss_magicPower'] = $boss->getMagicPower();
+        $_SESSION['boss_defense'] = $boss->getDefense();
+        $_SESSION['boss_magicDefense'] = $boss->getMagicDefense();
+
+        $_SESSION['damage'] = 0;
+
+        }
+        debug('セッション情報：'.print_r($_SESSION,true));
+
     }else{
         debug('ゲームをリセットしました');
         $_SESSION = array();
@@ -265,34 +287,52 @@ if(!empty($_POST)){
             <?php }elseif($battleFlg){ ?>
                 <div class="battle-screen">
                     <div class="boss-area">
+                        <div class="boss-hp">
+                            <span><?php echo $boss->getName(); ?></span><br>
+                            <span>HP</span>
+                            <p class="boss-hp-gage"></p>
+                        </div>
                         <img src="<?php echo $boss->getImg(); ?>">
-                        <span class="damage">ダメージ</span>
+                        <span class="damage"><?php if(!empty($_SESSION['damage'])) echo $_SESSION['damage'];?></span>
                     </div>
                     <div class="player-area">
                         <div class="player-info">
                             <div class="player-img">
                                 <img src="<?php echo $_SESSION['player']->getImg();?>">
                             </div>
-                            <div class="hp-mp">
-                                <p class="hp">HP</p>
-                                <p class="mp">MP</p>
+                            <div id="hp-mp">
+                                <div class="hp">HP
+                                    <p class="hp-gage"></p>
+                                    <p class="hp-point"><?php echo $_SESSION['player_hp']."/".$_SESSION['player']->getHp();?></p>
+                                </div>
+                                <div class="mp">MP
+                                    <p class="mp-gage"></p>
+                                    <p class="mp-point"><?php echo $_SESSION['player_mp']."/".$_SESSION['player']->getMp();?></p>
+                                </div>
                             </div>
                             <div class="command">
-                            <p>こうげき</p>
-                            <p>魔法</p>
-                            <p>逃げる</p>
+                            <p class="js-attack" aria-hidden="true" data-command="<?php echo Command::ATTACK; ?>">こうげき</p>
+                            <p class="js-hover-magic">魔法</p>
+                            <form method="post">
+                                <input class="escape" type="submit" name="home" value="逃げる">
+                            </form>
                         </div>
                         </div>
-                        <div class="js-command-list">
-                            <p>ヒール</p>
-                            <p>アタックブースト</p>
-                            <P>ホーリー</p>
-                        </div>
+                        <div class="magic-list">
+                            <?php 
+                                foreach($player_magic as $key => $value){
+                            ?>
+                            <p class="js-magic" aria-hidden="true" data-command="<?php echo $value ?>"><?php echo $player_magic[$key]; ?></p>
+                            <?php } ?>
                     </div>
+                    <div class="menu" style="display:none;">
+                    <form method="post">
+                        <input type="submit" name="home" value="町に戻る">
+                    </form>
+                </div>
                 </div>
             <?php } ?>
         </div>
-    </body>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
@@ -432,6 +472,67 @@ if(!empty($_POST)){
             }
         });
 
-    </script>
+        var $hp_gage = $('.hp-gage'),
+            $mp_gage = $('.mp-gage'),
+            $boss_hp_gage = $('.boss-hp-gage');
 
+        window.onload=function() {
+        <?php
+        if($battleFlg){
+        ?>
+        var hp = <?php echo getGage($_SESSION['player_hp']); ?>,
+            mp = <?php echo getGage($_SESSION['player_mp']); ?>,
+            boss_hp = <?php echo getBossGage($_SESSION['boss_hp']); ?>;
+
+            $hp_gage.css("width",hp);
+            $mp_gage.css("width",mp);
+            $boss_hp_gage.css("width",boss_hp);
+        <?php } ?>
+        }
+     
+
+        //バトルでコマンドが押された場合の処理
+        function AjaxBattle(command) {
+        console.log(command);
+        
+        // jQueryのajaxメソッドを使用しajax通信
+        $.ajax({
+            type: "POST", // GETメソッドで通信
+
+            url: "ajaxBattle.php", // 取得先のURL
+
+            data: { battleCommand : command },
+
+            cache: false, // キャッシュしないで読み込み
+        
+            dataType: 'html',
+
+            // 通信成功時に呼び出されるコールバック
+            success: function (data) {
+
+                location.reload();
+
+            },
+            // 通信エラー時に呼び出されるコールバック
+            error: function () {
+
+                alert("Ajax通信エラー");
+
+            }
+        });
+
+        }
+
+
+        //バトルで攻撃・魔法をクリックした場合の処理
+        $(document).on('click', function(e) {
+            if($(e.target).is($('.js-attack')) || $(e.target).is($('.js-magic')) ){
+                AjaxBattle($(e.target).data('command'));
+            }
+        });
+
+
+
+    </script>
+    </body>
 </html>

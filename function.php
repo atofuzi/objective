@@ -46,9 +46,9 @@ $player[] = new Player('悪魔の子','img/akuma_baby.png',Type::LANK4);
 
 
 //construct($name,$img,$hp,$power,$magic_power,$defense,$magic_defense)
-$monster['マミー'] = new Monster('マミー','img/mummy.png',500,300,150,200,100);
-$monster['デーモン'] = new Monster('デーモン','img/demon.png',1000,600,300,400,200);
-$monster['イフリート'] = new Monster('イフリート','img/ifrit.png',1500,1000,1000,1000,1000);
+$monster['マミー'] = new Monster('マミー','img/mummy.png',1500,300,150,200,100);
+$monster['デーモン'] = new Monster('デーモン','img/demon.png',3000,600,300,400,200);
+$monster['イフリート'] = new Monster('イフリート','img/ifrit.png',5000,1000,1000,1000,1000);
 
 $quest[] = new Quest('マミーを討伐せよ！',1,$monster['マミー']);
 $quest[] = new Quest('デーモンを討伐せよ！',2,$monster['デーモン']);
@@ -122,7 +122,7 @@ class Player extends Creature{
         $this->type= $type;
     }
     public function attack(){
-
+        
     }
     public function magic_attack(){
 
@@ -168,6 +168,8 @@ class Monster extends Creature{
     }
 }
 
+
+
 class Quest{
     protected $questName;
     protected $questLevel;
@@ -204,7 +206,6 @@ class Quest{
     }
 }
 //プレイヤータイプ
-
 class Type{
     const LANK1 = 10;
     const LANK1_M = 11;
@@ -221,6 +222,22 @@ class Magic{
     const ATTACK_BOOST = "アタックブースト";
     const HOLY = "ホーリー";
   }
+
+//バトルコマンド
+class Command{
+    const ATTACK = "こうげき";
+    const MAGIC = 1;
+  }
+
+//バトルターン
+class Battle{
+    public static function Count(){
+        $_SESSION['battle_count'] = $_SESSION['battle_count'] + 1;
+    } 
+    public static function Reset(){
+        $_SESSION['battle_count'] = 0;
+    }
+}
 
 function createStatus($object){
     debug('ステータスを生成します');
@@ -340,6 +357,14 @@ function setStatus($object,$array){
     $object->setMagicPower($array['魔力']);
     $object->setDefense($array['物理防御']);
     $object->setMagicDefense($array['魔法防御']);
+}
+
+function getGage($num){
+    return ceil($num/40);
+}
+
+function getBossGage($num){
+    return ceil($num/10);
 }
 
 ?>
