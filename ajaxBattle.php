@@ -10,55 +10,62 @@ debug('「「「「「「「「「「「「「「「「「「「「「「「「�
 // Ajax処理
 //================================
 
-// postがあり、ユーザーIDがあり、ログインしている場合
-if(!empty($_POST['battleCommand'])){
+// postあり
+if(!empty($_POST)){
     debug('POST送信があります。');
     debug('選んだバトルコマンドは：'.$_POST['battleCommand']);
     $select_command = $_POST['battleCommand'];
-    
+    $player = $_SESSION['battle_player'];
+    $boss =  $_SESSION['boss'];
+    $damage = "";
+
         switch($select_command){
             case Command::ATTACK :
-                //$_SESSION['player']->attack();
 
-                //ダメージ
-                $defense = mt_rand($_SESSION['boss_defense']*0.9,$_SESSION['boss_defense']*1.1);
-                $damage = $_SESSION['player_power'] * 3 - $defense;
-                    if(!mt_rand(0,5)){
-                        $damage = $damage *1.2; 
-                    }
-                $_SESSION['boss_hp'] = $_SESSION['boss_hp'] -$damage;
-                $_SESSION['damage'] = $damage;
-                break;
+                    $player->attack($boss);
+                    $damage = $boss->getDamage();
+                    $_SESSION['boss_hp'] = $boss->getHp();
+                    break;
 
-            case Magic::HEEL :
-                $_SESSION['player']->magic();
-                $_SESSION['player_hp'] = $_SESSION['player_hp']+round($_SESSION['player']->getHp() * 0.3);
-                    if($_SESSION['player_hp'] > $_SESSION['player']->getHp()){
-                        $_SESSION['player_hp'] = $_SESSION['player']->getHp();
-                    }
-                debug('プレイヤーのHP：'.$SESSION['player_hp']);
-                break;
+            case MagicSkill::HEEL :
 
-            case Magic::ATTACK_BOOST :
-                $_SESSION['player_power'] = $_SESSION['player']->getPower() * 1.5;
-                break;
+                    HEEL::use($player,$_SESSION['player']);
+                    break;
 
-            case Magic::HOLY :
+            case MagicSkill::ATTACK_BOOST :
+
+                    ATTACK_BOOST::use($player,$_SESSION['player']);
+                    break;
+
+            case MagicSkill::HOLY :
             
-                break;
+                    HOLY::use($player,$boss);
+                    $damage = $boss->getDamage();
+                    break;
         }
-    Battle::Count();
+
+    BattleTern::Count();
 
 }
 
 debug('Ajax処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
 
 ?>
-    <div class="hp">HP
-        <p class="hp-gage" style="width: <?php echo getGage($_SESSION['player_hp']);?>px;" ></p>
-        <p class="hp-point"><?php echo $_SESSION['player_hp']."/".$_SESSION['player']->getHp();?></p>
+    <div class="ajax-boss-hp">
+        <p class="boss-hp-gage" style="width: <?php echo getBossGage($boss->getHp()); ?>px;"  ></p>
     </div>
-    <div class="mp">MP
-        <p class="mp-gage" style="width: <?php echo getGage($_SESSION['player_mp']);?>px;" ></p>
-        <p class="mp-point"><?php echo $_SESSION['player_mp']."/".$_SESSION['player']->getMp();?></p>
+
+        <span class="boss-damage"><?php echo $damage; ?></span>
+
+
+    <div class="hp-mp">
+        <div class="hp">HP
+            <p class="hp-gage" style="width: <?php echo getGage($player->getHp());?>px;" ></p>
+            <p class="hp-point"><?php echo $player->getHp()."/".$_SESSION['player']->getHp();?></p>
+        </div>
+        <div class="mp">MP
+            <p class="mp-gage" style="width: <?php echo getGage($player->getMp());?>px;" ></p>
+            <p class="mp-point"><?php echo $player->getMp()."/".$_SESSION['player']->getMp();?></p>
+        </div>
     </div>
+

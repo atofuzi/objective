@@ -36,13 +36,11 @@ if(!empty($_POST)){
     if($startFlg){
         debug('ゲームスタート');
         $_SESSION['start'] = GAME_START;
-        Battle::Reset();
     }elseif($createPlayer){
         debug('プレイヤーを生成します');
         createPlayer();
     }elseif($homeFlg){
         debug('ホームへ移動します');
-        Battle::Reset();
     }elseif($trainingFlg){
         debug('トレーニングへ移動します');
     }elseif($questFlg){
@@ -50,37 +48,31 @@ if(!empty($_POST)){
     }elseif($battleFlg){
         debug('バトル画面です');
         debug('クエストナンバー：'.$_POST['quest_number']);
-        debug('バトルターン：'.$_SESSION['battle_count']);
 
-        $number = $_POST['quest_number'];
-        $boss = $quest[$number]->getQuestMonster();
-        //プレイヤーが習得している魔法を格納
-        $player_magic =  $_SESSION['player']->getMagic();
+        $_SESSION['battle_tern'] = 0;
 
-        if($_SESSION['battle_count'] === 0){
+        if($_SESSION['battle_tern'] == 0){
+            //クエストナンバーを取り出す
+            $number = $_POST['quest_number'];
 
-        //バトル画面で使うプレイヤーステータスをセッションに格納
-        $_SESSION['player_hp'] = $_SESSION['player']->getHp();
-        $_SESSION['player_mp'] = $_SESSION['player']->getMp();
-        $_SESSION['player_power'] = $_SESSION['player']->getPower();
-        $_SESSION['player_magicPower'] = $_SESSION['player']->getMagicPower();
-        $_SESSION['player_defense'] = $_SESSION['player']->getDefense();
-        $_SESSION['player_magicDefense'] = $_SESSION['player']->getMagicDefense();
+            //ボスオブジェクト生成
+            $boss = new Boss($quest[$number]->getQuestMonster());
 
-        //ボスモンスターのステータスをセッションに格納
-        $_SESSION['boss_hp'] = $boss->getHp();
-        $_SESSION['boss_power'] = $boss->getPower();
-        $_SESSION['boss_magicPower'] = $boss->getMagicPower();
-        $_SESSION['boss_defense'] = $boss->getDefense();
-        $_SESSION['boss_magicDefense'] = $boss->getMagicDefense();
+            //バトルプレイヤーオブジェクトを生成
+            $player = new BattlePlayer($_SESSION['player']);
 
-        $_SESSION['damage'] = 0;
+            $player_magic = $player->getMagic();
+            
+            $_SESSION['boss'] = $boss;
+            $_SESSION['battle_player']= $player; 
 
-        }
-        debug('セッション情報：'.print_r($_SESSION,true));
+            debug('プレイヤーHP：'.$player->getHp());
 
+
+            //プレイヤーが習得している魔法を格納
+         
+        }   
     }else{
-        debug('ゲームをリセットしました');
         $_SESSION = array();
     }
 }
@@ -290,10 +282,12 @@ if(!empty($_POST)){
                         <div class="boss-hp">
                             <span><?php echo $boss->getName(); ?></span><br>
                             <span>HP</span>
-                            <p class="boss-hp-gage"></p>
+                            <div id="ajax-boss-hp">
+                                <p class="boss-hp-gage"></p>
+                            </div>
                         </div>
                         <img src="<?php echo $boss->getImg(); ?>">
-                        <span class="damage"><?php if(!empty($_SESSION['damage'])) echo $_SESSION['damage'];?></span>
+                            <span id="boss-damage"></span>
                     </div>
                     <div class="player-area">
                         <div class="player-info">
@@ -303,11 +297,11 @@ if(!empty($_POST)){
                             <div id="hp-mp">
                                 <div class="hp">HP
                                     <p class="hp-gage"></p>
-                                    <p class="hp-point"><?php echo $_SESSION['player_hp']."/".$_SESSION['player']->getHp();?></p>
+                                    <p class="hp-point"><?php echo $player->getHp()."/".$_SESSION['player']->getHp();?></p>
                                 </div>
                                 <div class="mp">MP
                                     <p class="mp-gage"></p>
-                                    <p class="mp-point"><?php echo $_SESSION['player_mp']."/".$_SESSION['player']->getMp();?></p>
+                                    <p class="mp-point"><?php echo $player->getMp()."/".$_SESSION['player']->getMp();?></p>
                                 </div>
                             </div>
                             <div class="command">
@@ -480,9 +474,9 @@ if(!empty($_POST)){
         <?php
         if($battleFlg){
         ?>
-        var hp = <?php echo getGage($_SESSION['player_hp']); ?>,
-            mp = <?php echo getGage($_SESSION['player_mp']); ?>,
-            boss_hp = <?php echo getBossGage($_SESSION['boss_hp']); ?>;
+        var hp = <?php echo getGage($player->getHp()); ?>,
+            mp = <?php echo getGage($player->getMp()); ?>,
+            boss_hp = <?php echo getBossGage($boss->getHp()); ?>;
 
             $hp_gage.css("width",hp);
             $mp_gage.css("width",mp);
@@ -492,7 +486,7 @@ if(!empty($_POST)){
      
 
         //バトルでコマンドが押された場合の処理
-        function AjaxBattle(command) {
+        function AjaxBattle(command,$player,$boss) {
         console.log(command);
         
         // jQueryのajaxメソッドを使用しajax通信
@@ -501,7 +495,10 @@ if(!empty($_POST)){
 
             url: "ajaxBattle.php", // 取得先のURL
 
-            data: { battleCommand : command },
+            data: { battleCommand : command, 
+                    player : $player,
+                    boss : $boss
+                    },
 
             cache: false, // キャッシュしないで読み込み
         
@@ -509,9 +506,13 @@ if(!empty($_POST)){
 
             // 通信成功時に呼び出されるコールバック
             success: function (data) {
-
-                location.reload();
-
+                var $html = $(data);
+                var $hp_mp = $($html.get().filter(x => x.className === "hp-mp"));
+                var $boss_hp = $($html.get().filter(x => x.className === "ajax-boss-hp"));
+                var $boss_damage = $($html.get().filter(x => x.className === "boss-damage"));
+                $('#hp-mp').html($hp_mp.html());
+                $('#ajax-boss-hp').html($boss_hp.html());
+                $('#boss-damage').text($boss_damage.text());
             },
             // 通信エラー時に呼び出されるコールバック
             error: function () {

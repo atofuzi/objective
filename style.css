@@ -192,7 +192,7 @@ input:hover , .menu div:hover ,.command p:hover{
 .boss-area img{
     width: 30%;
 }
-.damage{
+#boss-damage{
     position: absolute;
     right: 380px;
     top:50px;

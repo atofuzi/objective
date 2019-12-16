@@ -65,7 +65,6 @@ abstract class Creature{
     protected $defense;
     protected $magic_defense;
     
-    abstract public function attack();
 
     public function setName($str){
         $this->name = $str;
@@ -121,17 +120,7 @@ class Player extends Creature{
         $this->img = $img;
         $this->type= $type;
     }
-    public function attack(){
-        
-    }
-    public function magic_attack(){
 
-    }
-
-    public function magic_skill(){
-
-    }
-    
     public function setMp($num){
         $this->mp = $num;
     }
@@ -149,6 +138,42 @@ class Player extends Creature{
     }
 }
 
+class BattlePlayer extends Player{
+    protected $damage;
+    public function __construct($object){
+        $this->name = $object->getName();
+        $this->img = $object->getImg();
+        $this->hp = $object->getHp();
+        $this->mp = $object->getMp();
+        $this->power = $object->getPower();
+        $this->magic_power = $object->getMagicPower();
+        $this->defense = $object->getDefense();
+        $this->magic_defense = $object->getMagicDefense();
+        $this->magic_skill = $object->getMagic();
+    }
+    public function attack($object_boss){
+        //ダメージ
+        $defense = mt_rand($object_boss->getDefense()*0.9,$object_boss->getDefense()*1.1);
+        $damage = $this->getPower()* 3 - $defense;
+            if(!mt_rand(0,5)){
+                $damage = $damage *1.2; 
+            }
+        $current_hp = $object_boss->getHp() - $damage;
+        $object_boss->setHp($current_hp);
+        $object_boss->setDamage($damage);
+    }
+    public function magic($str,$object1,$object2){
+        
+    }
+    public function setDamage($num){
+        $this->damage = $num;
+    }
+    public function getDamage(){
+        return $this->damage;
+    }
+}
+
+
 class Monster extends Creature{
     //コンストラクト
     public function __construct($name,$img,$hp,$power,$magic_power,$defense,$magic_defense){
@@ -160,16 +185,41 @@ class Monster extends Creature{
         $this->defense = $defense;
         $this->magic_defense = $magic_defense;
     }
-    public function attack(){
-
-    }
-    public function magic_attack(){
-
-    }
 }
 
 
-
+class Boss extends Monster{
+    protected $damage;
+    public function __construct($object){
+        $this->name = $object->getName();
+        $this->img = $object->getImg();
+        $this->hp = $object->getHp();
+        $this->power = $object->getPower();
+        $this->magic_power = $object->getMagicPower();
+        $this->defense = $object->getDefense();
+        $this->magic_defense = $object->getMagicDefense();
+    }
+    public function attack($object_player){
+        //ダメージ
+        $defense = mt_rand($object_player->getDefense()*0.9,$object_player->getDefense()*1.1);
+        $damage = $this->getPower()* 3 - $defense;
+            if(!mt_rand(0,5)){
+                $damage = $damage *1.2; 
+            }
+        $current_hp = $object_player->getHp() - $damage;
+        $object_player->setHp($current_hp);
+        $object_player->setDamage($damage);
+    }
+    public function magic($str,$object1,$object2){
+        
+    }
+    public function setDamage($num){
+        $this->damage = $num;
+    }
+    public function getDamage(){
+        return $this->damage;
+    }
+}
 class Quest{
     protected $questName;
     protected $questLevel;
@@ -205,6 +255,76 @@ class Quest{
         $this->questClear = "Clear";
     }
 }
+
+//魔法
+class MagicSkill{
+    const HEEL = "ヒール";
+    const ATTACK_BOOST = "アタックブースト";
+    const HOLY = "ホーリー";
+  }
+
+//魔法の仕様書の抽象クラス
+abstract class Magic{
+    public static $target; 
+    abstract public static function use($object1,$object2);
+    public function getCost(){
+        return $this->cost;
+    }
+    
+} 
+
+class HEEL{
+    public static $cost = 20;
+    public static $target = Target::MYSELF;
+    public static function use($object1,$object2){
+        //$object1：バトルプレイヤーのオブジェクト
+        //$object2：プレイヤーのオブジェクト
+
+        //プレイヤーHPの30％を回復
+        $current_hp = $object1->getHp()+round($object2->getHp() * 0.3);
+            //回復後のHPがプレイヤーのHPよりも多い場合はプレイヤーのHPが回復後のHPになる
+            if($current_hp > $object2->getHp()){
+                $current_hp  = $object2->getHp();
+            }
+        $object1->setHp($current_hp);
+        $object1->setMp( $object1->getMp() - HEEL::$cost );
+    }
+}
+
+class ATTACK_BOOST{
+    public static $cost = 40;
+    public static $target = Target::MYSELF;
+    public static function use($object1,$object2){
+        //$object1：バトルプレイヤーのオブジェクト
+        //$object2：プレイヤーのオブジェクト
+
+        //元々のプレイヤーの攻撃力を2倍にする
+        $current_power = $object2->getPower() * 2;
+        
+        $object1->setPower($current_power);
+        $object1->setMp( $object1->getMp() - ATTACK_BOOST::$cost );
+    }
+}
+
+class HOLY{
+    public static $cost = 100;
+    public static $target = Target::ENEMY;
+    public static function use($object1,$object2){
+        //$object1：バトルプレイヤーのオブジェクト
+        //$object2：ボスのオブジェクト
+
+        $m_defense = mt_rand($object2->getMagicDefense()*0.9,$object2->getMagicDefense()*1.1);
+        $damage = $object1->getMagicPower() * 9 - $m_defense;
+ 
+        $current_hp = $object1->getHp() - $damage;
+        $object2->setHp($current_hp);
+        $object2->setDamage($damage);
+
+        $object1->setMp( $object1->getMp() - HOLY::$cost );
+    }
+}
+
+
 //プレイヤータイプ
 class Type{
     const LANK1 = 10;
@@ -216,12 +336,7 @@ class Type{
     const LANK4 = 40;
   }
 
-//魔法
-class Magic{
-    const HEEL = "ヒール";
-    const ATTACK_BOOST = "アタックブースト";
-    const HOLY = "ホーリー";
-  }
+
 
 //バトルコマンド
 class Command{
@@ -229,15 +344,22 @@ class Command{
     const MAGIC = 1;
   }
 
+//バトルコマンドの対象先
+class Target{
+    const MYSELF = 0;
+    const ENEMY = 1;
+}
+
 //バトルターン
-class Battle{
+class BattleTern{
     public static function Count(){
-        $_SESSION['battle_count'] = $_SESSION['battle_count'] + 1;
+        $_SESSION['battle_tern'] = $_SESSION['battle_tern'] + 1;
     } 
     public static function Reset(){
-        $_SESSION['battle_count'] = 0;
+        $_SESSION['battle_tern'] = 0;
     }
 }
+
 
 function createStatus($object){
     debug('ステータスを生成します');

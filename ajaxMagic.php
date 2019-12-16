@@ -21,14 +21,14 @@ if(!empty($_POST['select_magic'])){
     if(!(in_array($select_magic , $_SESSION['player']->getMagic()))){
     
         switch($select_magic){
-            case Magic::HEEL :
-                $_SESSION['player']->setMagic(Magic::HEEL);
+            case MagicSkill::HEEL :
+                $_SESSION['player']->setMagic(MagicSkill::HEEL);
                 break;
-            case Magic::ATTACK_BOOST :
-                $_SESSION['player']->setMagic(Magic::ATTACK_BOOST);
+            case MagicSkill::ATTACK_BOOST :
+                $_SESSION['player']->setMagic(MagicSkill::ATTACK_BOOST);
                 break;
-            case Magic::HOLY :
-                $_SESSION['player']->setMagic(Magic::HOLY);
+            case MagicSkill::HOLY :
+                $_SESSION['player']->setMagic(MagicSkill::HOLY);
                 break;
         }
     }else{
@@ -58,15 +58,15 @@ debug('Ajax処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
             <table>
                 <tr>
                     <td>回復魔法</td>
-                    <td class="magic" aria-hidden="true" data-magic="<?php echo Magic::HEEL; ?>">ヒール</td>
+                    <td class="magic" aria-hidden="true" data-magic="<?php echo MagicSkill::HEEL; ?>">ヒール</td>
                 </tr>
                 <tr>
                     <td>補助魔法</td>
-                    <td class="magic" aria-hidden="true" data-magic="<?php echo Magic::ATTACK_BOOST; ?>">アタックブースト</td>
+                    <td class="magic" aria-hidden="true" data-magic="<?php echo MagicSkill::ATTACK_BOOST; ?>">アタックブースト</td>
                 </tr>
                 <tr>
                     <td>攻撃魔法</td>
-                    <td class="magic" aria-hidden="true" data-magic="<?php echo Magic::HOLY; ?>">ホーリー</td>
+                    <td class="magic" aria-hidden="true" data-magic="<?php echo MagicSkill::HOLY; ?>">ホーリー</td>
                 </tr>
             </table>
         </div>
