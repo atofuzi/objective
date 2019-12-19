@@ -11,20 +11,34 @@ debug('「「「「「「「「「「「「「「「「「「「「「「「「�
 //================================
 
 // postあり
-if(!empty($_POST)){
-    debug('POST送信があります。');
-    debug('選んだバトルコマンドは：'.$_POST['battleCommand']);
+if(!empty($_POST['battleCommand'])){
+
     $select_command = $_POST['battleCommand'];
     $player = $_SESSION['battle_player'];
     $boss =  $_SESSION['boss'];
     $damage = "";
+    $p_damage = "";
+
+    if($select_command != "boss"){
+        BattleTern::Count();
+    }
+
+    debug('バトルターン：'.$_SESSION['battle_tern'].'回目');
+    debug('選んだバトルコマンドは：'.$select_command);
+    
+
 
         switch($select_command){
             case Command::ATTACK :
+                    debug('プレイヤーの攻撃');
 
                     $player->attack($boss);
                     $damage = $boss->getDamage();
                     $_SESSION['boss_hp'] = $boss->getHp();
+
+                    debug($boss->getName().'へ'.$damage.'の物理ダメージ');
+            
+                    debug('ボスの残りHPは'.$boss->getHp());
                     break;
 
             case MagicSkill::HEEL :
@@ -38,25 +52,46 @@ if(!empty($_POST)){
                     break;
 
             case MagicSkill::HOLY :
-            
+                    debug('プレイヤーの魔法撃');
+
                     HOLY::use($player,$boss);
+
                     $damage = $boss->getDamage();
+                    
+                    debug($boss->getName().'へ'.$damage.'の物理ダメージ');
+                    $_SESSION['boss_hp'] = $boss->getHp();
+
+                    debug('ボスの残りHPは'.$boss->getHp());
+
                     break;
+
+            case "boss" :
+                    debug('ボスの攻撃');
+
+                    $boss->attack($player);
+                    $p_damage = -1*$player->getDamage();
+                    $_SESSION['player_hp'] = $player->getHp();
+
+                    debug($player->getName().'へ'.$p_damage.'の物理ダメージ');
+                    debug('プレイヤーの残りHPは'.$_SESSION['player_hp']);
         }
 
-    BattleTern::Count();
-
+        if($_SESSION['boss_hp']  < 0){
+            $_SESSION['quest']->setQuestClear();
+            debug('クエストステータス：'.$_SESSION['quest']->getQuestClear());
+        }
 }
 
 debug('Ajax処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
 
 ?>
+
     <div class="ajax-boss-hp">
         <p class="boss-hp-gage" style="width: <?php echo getBossGage($boss->getHp()); ?>px;"  ></p>
     </div>
 
-        <span class="boss-damage"><?php echo $damage; ?></span>
-
+    <span class="boss-damage"><span><?php echo $damage; ?></span></span>
+    <span class="player-damage"><span><?php echo $p_damage; ?></span></span>
 
     <div class="hp-mp">
         <div class="hp">HP

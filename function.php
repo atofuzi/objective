@@ -20,14 +20,14 @@ function debug($str){
 
 define('GAME_START','ゲーム開始');
 
-//使用する変数を初期化
-$startFlg = false;
-$createPlayer = false;
-$restartFlg = false;
-$homeFlg = false;
-$trainingFlg = false;
-$questFlg = false;
-$battleFlg  = false;
+//使用する各フラグ変数を初期化
+$startFlg = false;  //スタート画面の判定
+$createPlayer = false;  //プレイヤー召喚画面の判定
+$restartFlg = false;  //リセットの判定
+$homeFlg = false;  //ホーム画面の判定
+$trainingFlg = false;  //修行画面の判定
+$questFlg = false;  //クエスト選択画面の判定
+$battleFlg  = false;  //バトル画面の判定
 //$_SESSION = array();
 
 //モンスター格納用
@@ -35,21 +35,23 @@ $monsters = array();
 
 //プレイヤー格納用
 $player = array();
+
 //construct($name,$img,$hp,$power,$magic_power,$defense,$magic_defense,$mp)
 $player[] = new Player('金太郎','img/kintaro.png',Type::LANK1);
 $player[] = new Player('忍者','img/ninja.png',Type::LANK1_M);
 $player[] = new Player('悪魔♂','img/akuma_boy.png',Type::LANK2);
 $player[] = new Player('悪魔♀','img/akuma_gill.png',Type::LANK2_M);
 $player[] = new Player('剣士♂','img/soldier_man.png',Type::LANK3);
-$player[] = new Player('剣士♀','img/soldier_woman.jpg',Type::LANK3_M);
+$player[] = new Player('魔女♀','img/mazyo.png',Type::LANK3_M);
 $player[] = new Player('悪魔の子','img/akuma_baby.png',Type::LANK4);
 
-
+//モンスターのオブジェクト生成
 //construct($name,$img,$hp,$power,$magic_power,$defense,$magic_defense)
-$monster['マミー'] = new Monster('マミー','img/mummy.png',1500,300,150,200,100);
-$monster['デーモン'] = new Monster('デーモン','img/demon.png',3000,600,300,400,200);
-$monster['イフリート'] = new Monster('イフリート','img/ifrit.png',5000,1000,1000,1000,1000);
+$monster['マミー'] = new Monster('マミー','img/mummy.png',1000,300,300,50,50);
+$monster['デーモン'] = new Monster('デーモン','img/demon.png',2000,600,600,100,100);
+$monster['イフリート'] = new Monster('イフリート','img/ifrit.png',5000,1000,1000,500,500);
 
+//クエストのオブジェクト生成
 $quest[] = new Quest('マミーを討伐せよ！',1,$monster['マミー']);
 $quest[] = new Quest('デーモンを討伐せよ！',2,$monster['デーモン']);
 $quest[] = new Quest('イフリートを討伐せよ！',3,$monster['イフリート']);
@@ -64,7 +66,36 @@ abstract class Creature{
     protected $magic_power;
     protected $defense;
     protected $magic_defense;
+
+    public function attack($targetOjt){
     
+        //ターゲットのディフェンス力を計算
+        $defense = mt_rand($targetOjt->getDefense()*0.9,$targetOjt->getDefense()*1.1);
+
+        //自身が与えるダメージ量を計算
+        $damage = $this->getPower() - round($defense);
+
+        //ダメージ量がマイナスの場合
+        if($damage < 0){
+            $damage = 1;
+        }
+        //クリティカル判定(確率2分の１)
+        if(!mt_rand(0,4)){
+            $damage = ceil($damage *1.5); 
+        }
+
+
+        //ターゲットの残Hpの計算・格納
+        $hp = $targetOjt->getHp() - $damage;
+
+        //残りHPがマイナスの場合は0にする
+        if($hp < 0){
+            $hp = 0;
+        }
+                
+        $targetOjt->setHp($hp);
+        $targetOjt->setDamage($damage);
+    }
 
     public function setName($str){
         $this->name = $str;
@@ -121,6 +152,10 @@ class Player extends Creature{
         $this->type= $type;
     }
 
+    public function attack($targetOjt){
+        parent::attack($targetOjt);
+    }
+
     public function setMp($num){
         $this->mp = $num;
     }
@@ -151,20 +186,15 @@ class BattlePlayer extends Player{
         $this->magic_defense = $object->getMagicDefense();
         $this->magic_skill = $object->getMagic();
     }
+
     public function attack($object_boss){
-        //ダメージ
-        $defense = mt_rand($object_boss->getDefense()*0.9,$object_boss->getDefense()*1.1);
-        $damage = $this->getPower()* 3 - $defense;
-            if(!mt_rand(0,5)){
-                $damage = $damage *1.2; 
-            }
-        $current_hp = $object_boss->getHp() - $damage;
-        $object_boss->setHp($current_hp);
-        $object_boss->setDamage($damage);
+        parent::attack($object_boss);
     }
+    //魔法攻撃をする場合※今回は未実装
     public function magic($str,$object1,$object2){
         
     }
+
     public function setDamage($num){
         $this->damage = $num;
     }
@@ -185,6 +215,10 @@ class Monster extends Creature{
         $this->defense = $defense;
         $this->magic_defense = $magic_defense;
     }
+    public function attack($targetOjt){
+        parent::attack($targetOjt);
+    }
+
 }
 
 
@@ -200,16 +234,9 @@ class Boss extends Monster{
         $this->magic_defense = $object->getMagicDefense();
     }
     public function attack($object_player){
-        //ダメージ
-        $defense = mt_rand($object_player->getDefense()*0.9,$object_player->getDefense()*1.1);
-        $damage = $this->getPower()* 3 - $defense;
-            if(!mt_rand(0,5)){
-                $damage = $damage *1.2; 
-            }
-        $current_hp = $object_player->getHp() - $damage;
-        $object_player->setHp($current_hp);
-        $object_player->setDamage($damage);
+        parent::attack($object_player);
     }
+
     public function magic($str,$object1,$object2){
         
     }
@@ -220,13 +247,15 @@ class Boss extends Monster{
         return $this->damage;
     }
 }
+
+//クエストクラス
 class Quest{
     protected $questName;
     protected $questLevel;
     protected $monsterName;
     protected $questImg;
     protected $monster;
-    protected $questClear = "";
+    protected $questClear;
     
     public function __construct($str,$num,$object){
         $this->questName = $str;
@@ -253,6 +282,9 @@ class Quest{
     }
     public function setQuestClear(){
         $this->questClear = "Clear";
+    }
+    public function getQuestClear(){
+        return $this->questClear;
     }
 }
 
@@ -281,13 +313,14 @@ class HEEL{
         //$object2：プレイヤーのオブジェクト
 
         //プレイヤーHPの30％を回復
-        $current_hp = $object1->getHp()+round($object2->getHp() * 0.3);
+        $hp = $object1->getHp()+round($object2->getHp() * 0.3);
             //回復後のHPがプレイヤーのHPよりも多い場合はプレイヤーのHPが回復後のHPになる
-            if($current_hp > $object2->getHp()){
-                $current_hp  = $object2->getHp();
+            if($hp > $object2->getHp()){
+                $hp  = $object2->getHp();
             }
-        $object1->setHp($current_hp);
-        $object1->setMp( $object1->getMp() - HEEL::$cost );
+        $object1->setHp($hp);
+        $mp = $object1->getMp() - HEEL::$cost;
+        $object1->setMp($mp);
     }
 }
 
@@ -299,9 +332,9 @@ class ATTACK_BOOST{
         //$object2：プレイヤーのオブジェクト
 
         //元々のプレイヤーの攻撃力を2倍にする
-        $current_power = $object2->getPower() * 2;
+        $power = $object2->getPower() * 2;
         
-        $object1->setPower($current_power);
+        $object1->setPower($power);
         $object1->setMp( $object1->getMp() - ATTACK_BOOST::$cost );
     }
 }
@@ -313,11 +346,16 @@ class HOLY{
         //$object1：バトルプレイヤーのオブジェクト
         //$object2：ボスのオブジェクト
 
-        $m_defense = mt_rand($object2->getMagicDefense()*0.9,$object2->getMagicDefense()*1.1);
-        $damage = $object1->getMagicPower() * 9 - $m_defense;
+        $magic_defense = mt_rand($object2->getMagicDefense()*0.9,$object2->getMagicDefense()*1.1);
+
+        $damage = $object1->getMagicPower() * 9 - round($m_defense);
+
+        if($damage < 0){
+            $damage = 1;
+        }
  
-        $current_hp = $object1->getHp() - $damage;
-        $object2->setHp($current_hp);
+        $hp = $object2->getHp() - $damage;
+        $object2->setHp($hp);
         $object2->setDamage($damage);
 
         $object1->setMp( $object1->getMp() - HOLY::$cost );
@@ -335,7 +373,6 @@ class Type{
     const LANK3_M = 31;
     const LANK4 = 40;
   }
-
 
 
 //バトルコマンド
@@ -360,7 +397,7 @@ class BattleTern{
     }
 }
 
-
+//ステータ生成
 function createStatus($object){
     debug('ステータスを生成します');
     debug('プレイヤータイプ：'.$object->getType());
@@ -454,12 +491,12 @@ function createPlayer(){
     debug('物理防御：'.$_SESSION['player']->getDefense());
     debug('魔法防御：'.$_SESSION['player']->getMagicDefense());
 }
-
+//プレイヤーキャラのレア度を取得
 function getRarity($object){
     return floor(($object->getType()/10));
 
 }
-
+//プレイヤーのステータスを取得
 function getStatus($object){
     $status = array(
                 'HP' => $object->getHp(),
@@ -472,6 +509,7 @@ function getStatus($object){
     return $status;
 }
 
+//プレイヤーのステイタスを格納
 function setStatus($object,$array){
     $object->setHp($array['HP']);
     $object->setMp($array['MP']);
@@ -481,10 +519,11 @@ function setStatus($object,$array){
     $object->setMagicDefense($array['魔法防御']);
 }
 
+//プレイヤーのHPゲージを取得
 function getGage($num){
     return ceil($num/40);
 }
-
+//ボスのHPゲージを取得
 function getBossGage($num){
     return ceil($num/10);
 }

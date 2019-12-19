@@ -16,14 +16,17 @@ debug('トレーニングフラグ：'.$trainingFlg);
 debug('クエストフラグ：'.$questFlg);
 debug('バトルフラグ：'.$battleFlg);
 
-
+//セッションに値が入っているがポスト送信が空の場合、不正遷移の可能性もあるためリセット
 if(!empty($_SESSION) && empty($_POST)){
     $_SESSION = array();
 }
 
+//ポスト送信がある場合
 if(!empty($_POST)){
 
     debug('ポスト送信あり');
+
+    //画面の判定用フラグ　遷移画面→true
     $startFlg = (!empty($_POST['start']))? true : false;
     $restartFlg  = (!empty($_POST['restart']))? true : false;
     $createPlayer  = (!empty($_POST['createPlayer']))? true : false;
@@ -38,6 +41,7 @@ if(!empty($_POST)){
         $_SESSION['start'] = GAME_START;
     }elseif($createPlayer){
         debug('プレイヤーを生成します');
+        //プレイヤー生成
         createPlayer();
     }elseif($homeFlg){
         debug('ホームへ移動します');
@@ -52,6 +56,7 @@ if(!empty($_POST)){
         $_SESSION['battle_tern'] = 0;
 
         if($_SESSION['battle_tern'] == 0){
+
             //クエストナンバーを取り出す
             $number = $_POST['quest_number'];
 
@@ -61,15 +66,18 @@ if(!empty($_POST)){
             //バトルプレイヤーオブジェクトを生成
             $player = new BattlePlayer($_SESSION['player']);
 
+            //プレイヤーの魔法スキルセット
             $player_magic = $player->getMagic();
-            
+
+            //ボス・プレイヤーオブジェクトをセッションへ格納　※ajax通信でオブジェクトを送信する役割
             $_SESSION['boss'] = $boss;
             $_SESSION['battle_player']= $player; 
 
-            debug('プレイヤーHP：'.$player->getHp());
+            //勝利・敗北を判断するためのHPを初期化
+            $_SESSION['boss_hp'] = 0;
+            $_SESSION['player_hp']= 0; 
+            $_SESSION['quest'] = $quest[$number];
 
-
-            //プレイヤーが習得している魔法を格納
          
         }   
     }else{
@@ -99,6 +107,7 @@ if(!empty($_POST)){
                         <input type="submit" name="start" value="クエスト開始">
                     </form>
                 </div>
+            <!--  スタート画面  -->
             <?php }elseif($startFlg){ ?>
                  <img src="img/1044176.jpg">
                     <div class="menu">
@@ -106,6 +115,7 @@ if(!empty($_POST)){
                             <input type="submit" name="createPlayer" value="プレイヤーを召喚">
                         </form>
                     </div>
+            <!--  プレイヤー召喚画面  -->
             <?php }elseif($createPlayer){ ?>
                 <div class="player-panel">
                     <p>レア度：
@@ -143,6 +153,7 @@ if(!empty($_POST)){
                         <input type="submit" name="home" value="町へ行く">
                     </form>
                 </div>
+            <!--  ホーム画面  -->
             <?php }elseif($homeFlg){ ?>
                 <div class="popup">
                     <div class="status-panel">
@@ -204,6 +215,7 @@ if(!empty($_POST)){
                         <input type="submit" name="restart" value="リセット">
                     </form>
                 </div>
+            <!--  修行画面  -->
             <?php }elseif($trainingFlg){ ?>
                 <div id="ajaxreload">
                     <div class="training-screen">
@@ -253,6 +265,7 @@ if(!empty($_POST)){
                         <input type="submit" name="home" value="町へ戻る">
                     </form>
                 </div>
+            <!--  クエスト選択画面  -->
             <?php }elseif($questFlg){ ?>
                 <div class="quest-screen">
                     <form method="post">
@@ -268,7 +281,7 @@ if(!empty($_POST)){
                                 <span class="quest-level">レベル：<?php echo $quest[$key]->getQuestLevel();?></span>
                             </div>
                             <p class="boss-name">BOSS：<?php echo $quest[$key]->getMonsterName();?></p>
-                            <p class="quest-status">clear</p>
+                            <p class="quest-status"><?php echo $quest[$key]->getQuestClear(); ?></p>
                         </div>
                     </button>
                     <?php } ?>
@@ -276,6 +289,7 @@ if(!empty($_POST)){
                 <div class="menu">
                         <input type="submit" name="home" value="町へ戻る">
                 </div>
+            <!--  バトル画面  -->
             <?php }elseif($battleFlg){ ?>
                 <div class="battle-screen">
                     <div class="boss-area">
@@ -286,10 +300,26 @@ if(!empty($_POST)){
                                 <p class="boss-hp-gage"></p>
                             </div>
                         </div>
-                        <img src="<?php echo $boss->getImg(); ?>">
-                            <span id="boss-damage"></span>
+                        <img class="boss-img" src="<?php echo $boss->getImg(); ?>">
+                        <span id="boss-damage"><span></span></span>   
+                    </div>
+                    <div class="popup-area">
+                        <div class="popup-3">ボスの攻撃！！！</div>
+                        <div class="popup-lose" style="display:none;">
+                            <form method="post">
+                                <button name="quest_number" value="<?php echo $number ?>">リトライ？</button>
+                                <input type="submit" name="home" value="町へ戻る">
+                            </form> 
+                        </div>
+                        <div class="popup-win" style="display:none;">
+                            <form method="post">
+                                <p>勝利しました！</p>
+                                <input type="submit" name="home" value="町へ戻る">
+                            </form> 
+                        </div>
                     </div>
                     <div class="player-area">
+                        <span id="player-damage"><span></span></span>
                         <div class="player-info">
                             <div class="player-img">
                                 <img src="<?php echo $_SESSION['player']->getImg();?>">
@@ -313,227 +343,328 @@ if(!empty($_POST)){
                         </div>
                         </div>
                         <div class="magic-list">
-                            <?php 
-                                foreach($player_magic as $key => $value){
-                            ?>
-                            <p class="js-magic" aria-hidden="true" data-command="<?php echo $value ?>"><?php echo $player_magic[$key]; ?></p>
-                            <?php } ?>
+                        <?php foreach($player_magic as $key => $value){ ?>
+                                <p class="js-magic" aria-hidden="true" data-command="<?php echo $value ?>"><?php echo $player_magic[$key]; ?></p>
+                        <?php } ?>
                     </div>
-                    <div class="menu" style="display:none;">
-                    <form method="post">
-                        <input type="submit" name="home" value="町に戻る">
-                    </form>
-                </div>
                 </div>
             <?php } ?>
         </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script>
+    <!-- フッター -->
+    <footer>
 
-        var $status_show = $('.js-status-show'); 
-        var $popup = $('.popup');
-        var $status_panel = $('.status-panel');
-        var $game_screen = $('.game-screen');
-        var popFlg = false;
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script>
 
-        
+            var $status_show = $('.js-status-show'); 
+            var $popup = $('.popup');
+            var $status_panel = $('.status-panel');
+            var $game_screen = $('.game-screen');
+            var popFlg = false;
 
-        
-        //修行：走る
-        function AjaxRun() {
-        
-        // jQueryのajaxメソッドを使用しajax通信
-        $.ajax({
-            type: "POST", // GETメソッドで通信
+            //修行：走る
+            function AjaxRun() {
+            
+                // jQueryのajaxメソッドを使用しajax通信
+                $.ajax({
+                    type: "POST", // GETメソッドで通信
 
-            url: "ajaxRun.php", // 取得先のURL
+                    url: "ajaxRun.php", // 取得先のURL
 
-            data: { training_run : "run"},
+                    data: { training_run : "run"},
 
-            cache: false, // キャッシュしないで読み込み
+                    cache: false, // キャッシュしないで読み込み
 
-            // 通信成功時に呼び出されるコールバック
-            success: function (data) {
+                    // 通信成功時に呼び出されるコールバック
+                    success: function (data) {
 
-                $('#ajaxreload').html(data);
+                        $('#ajaxreload').html(data);
 
-            },
-            // 通信エラー時に呼び出されるコールバック
-            error: function () {
-
-                alert("Ajax通信エラー");
-
-
-            }
-        });
-
-        }
-
-
-         //修行：魔法を覚える
-        function AjaxMagic(magic) {
-        
-        // jQueryのajaxメソッドを使用しajax通信
-        $.ajax({
-            type: "POST", // GETメソッドで通信
-
-            url: "ajaxMagic.php", // 取得先のURL
-
-            data: { select_magic : magic},
-
-            cache: false, // キャッシュしないで読み込み
-
-            // 通信成功時に呼び出されるコールバック
-            success: function (data) {
-
-                $('#ajaxreload').html(data);
-
-                $('.popup-2').fadeIn(1000);
-                setTimeout(function(){ 
-                    $('.popup-2').fadeOut(1000);
-                 }, 2500);
-            },
-            // 通信エラー時に呼び出されるコールバック
-            error: function () {
-
-                alert("Ajax通信エラー");
-
-
-            }
-        });
-
-        }
-
-
-        //修行：瞑想
-        function AjaxMeditation() {
-        
-        // jQueryのajaxメソッドを使用しajax通信
-        $.ajax({
-            type: "POST", // GETメソッドで通信
-
-            url: "ajaxMeditation.php", // 取得先のURL
-
-            data: { training_meditation : "meditation"},
-
-            cache: false, // キャッシュしないで読み込み
-
-            // 通信成功時に呼び出されるコールバック
-            success: function (data) {
-
-                $('#ajaxreload').html(data);
-            },
-            // 通信エラー時に呼び出されるコールバック
-            error: function () {
-
-                alert("Ajax通信エラー");
-
-
-            }
-        });
-
-        }
-
-
-
-        //修行メニューを選択した場合のアクション
-        $(document).on('click', function(e) {
-            if($(e.target).is($('.js-click-run'))){
-                AjaxRun();
-            }else if($(e.target).is($('.js-click-meditation'))){
-                AjaxMeditation();
-            }else if($(e.target).is($('.js-click-magic'))){
-                var magic = "";
-                AjaxMagic(magic);
-            }
-        });
-
-        //ステータスポップアップ機能
-        $(document).on('click', function(e) {
-            if( ( $(e.target).is($game_screen) === true || $(e.target).is($status_show) ) && popFlg === true){
-                $popup.fadeOut();
-                popFlg = false;
-            }else if($(e.target).is($status_show)){
-                $popup.fadeIn();
-                popFlg = true;
-            //修行・魔法でのクリック時の処理
-            }else if($(e.target).is($('.magic'))){
-                console.log('魔法クリック');
-                var magic = $(e.target).data('magic');
-
-                AjaxMagic(magic);
-            }
-        });
-
-        var $hp_gage = $('.hp-gage'),
-            $mp_gage = $('.mp-gage'),
-            $boss_hp_gage = $('.boss-hp-gage');
-
-        window.onload=function() {
-        <?php
-        if($battleFlg){
-        ?>
-        var hp = <?php echo getGage($player->getHp()); ?>,
-            mp = <?php echo getGage($player->getMp()); ?>,
-            boss_hp = <?php echo getBossGage($boss->getHp()); ?>;
-
-            $hp_gage.css("width",hp);
-            $mp_gage.css("width",mp);
-            $boss_hp_gage.css("width",boss_hp);
-        <?php } ?>
-        }
-     
-
-        //バトルでコマンドが押された場合の処理
-        function AjaxBattle(command,$player,$boss) {
-        console.log(command);
-        
-        // jQueryのajaxメソッドを使用しajax通信
-        $.ajax({
-            type: "POST", // GETメソッドで通信
-
-            url: "ajaxBattle.php", // 取得先のURL
-
-            data: { battleCommand : command, 
-                    player : $player,
-                    boss : $boss
                     },
+                    // 通信エラー時に呼び出されるコールバック
+                    error: function () {
 
-            cache: false, // キャッシュしないで読み込み
+                        alert("Ajax通信エラー");
+
+
+                    }
+                });
+            }
+
+
+            //修行：魔法を覚える
+            function AjaxMagic(magic) {
+            
+                // jQueryのajaxメソッドを使用しajax通信
+                $.ajax({
+                    type: "POST", // GETメソッドで通信
+
+                    url: "ajaxMagic.php", // 取得先のURL
+
+                    data: { select_magic : magic},
+
+                    cache: false, // キャッシュしないで読み込み
+
+                    // 通信成功時に呼び出されるコールバック
+                    success: function (data) {
+
+                        $('#ajaxreload').html(data);
+
+                        $('.popup-2').fadeIn(1000);
+                        setTimeout(function(){ 
+                            $('.popup-2').fadeOut(1000);
+                        }, 2500);
+                    },
+                    // 通信エラー時に呼び出されるコールバック
+                    error: function () {
+
+                        alert("Ajax通信エラー");
+                    }
+                });
+            }
+
+
+            //修行：瞑想
+            function AjaxMeditation() {
+            
+                // jQueryのajaxメソッドを使用しajax通信
+                $.ajax({
+                    type: "POST", // GETメソッドで通信
+
+                    url: "ajaxMeditation.php", // 取得先のURL
+
+                    data: { training_meditation : "meditation"},
+
+                    cache: false, // キャッシュしないで読み込み
+
+                    // 通信成功時に呼び出されるコールバック
+                    success: function (data) {
+
+                        $('#ajaxreload').html(data);
+                    },
+                    // 通信エラー時に呼び出されるコールバック
+                    error: function () {
+
+                        alert("Ajax通信エラー");
+                    }
+                });
+            }
+
+            //修行メニューを選択した場合のアクション
+            $(document).on('click', function(e) {
+                if($(e.target).is($('.js-click-run'))){
+                    AjaxRun();
+                }else if($(e.target).is($('.js-click-meditation'))){
+                    AjaxMeditation();
+                }else if($(e.target).is($('.js-click-magic'))){
+                    var magic = "";
+                    AjaxMagic(magic);
+                }
+            });
+
+            //ステータスポップアップ機能
+            $(document).on('click', function(e) {
+                if( ( $(e.target).is($game_screen) === true || $(e.target).is($status_show) ) && popFlg === true){
+                    $popup.fadeOut();
+                    popFlg = false;
+                }else if($(e.target).is($status_show)){
+                    $popup.fadeIn();
+                    popFlg = true;
+                //修行・魔法でのクリック時の処理
+                }else if($(e.target).is($('.magic'))){
+                    console.log('魔法クリック');
+                    var magic = $(e.target).data('magic');
+
+                    AjaxMagic(magic);
+                }
+            });
+
+            //バトル画面の設定
+            //HP・MPゲージの表示
+            var $hp_gage = $('.hp-gage'),
+                $mp_gage = $('.mp-gage'),
+                $boss_hp_gage = $('.boss-hp-gage');
+
+            //バトルの最初の画面
+            window.onload=function() {
+            <?php
+            if($battleFlg){
+            ?>
+            var hp = <?php echo getGage($player->getHp()); ?>,
+                mp = <?php echo getGage($player->getMp()); ?>,
+                boss_hp = <?php echo getBossGage($boss->getHp()); ?>;
+
+                $hp_gage.css("width",hp);
+                $mp_gage.css("width",mp);
+                $boss_hp_gage.css("width",boss_hp);
+            <?php } ?>
+            }
         
-            dataType: 'html',
 
-            // 通信成功時に呼び出されるコールバック
-            success: function (data) {
-                var $html = $(data);
-                var $hp_mp = $($html.get().filter(x => x.className === "hp-mp"));
-                var $boss_hp = $($html.get().filter(x => x.className === "ajax-boss-hp"));
-                var $boss_damage = $($html.get().filter(x => x.className === "boss-damage"));
-                $('#hp-mp').html($hp_mp.html());
-                $('#ajax-boss-hp').html($boss_hp.html());
-                $('#boss-damage').text($boss_damage.text());
-            },
-            // 通信エラー時に呼び出されるコールバック
-            error: function () {
+            //バトルでコマンドが押された場合の処理
+            function AjaxBattle(command) {
+            
+                // jQueryのajaxメソッドを使用しajax通信
+                $.ajax({
+                    type: "POST", // GETメソッドで通信
 
-                alert("Ajax通信エラー");
+                    url: "ajaxBattle.php", // 取得先のURL
 
+                    data: { battleCommand : command },
+
+                    cache: false, // キャッシュしないで読み込み
+                
+                    dataType: 'html',
+
+                    // 通信成功時に呼び出されるコールバック
+                    }).done(function(data){
+
+                        var $html = $(data);
+                        var $hp_mp = $($html.get().filter(x => x.className === "hp-mp"));
+                        var $boss_hp = $($html.get().filter(x => x.className === "ajax-boss-hp"));
+                        var $boss_damage = $($html.get().filter(x => x.className === "boss-damage"));
+                        var $player_damage = $($html.get().filter(x => x.className === "player-damage"));
+                        $('#hp-mp').html($hp_mp.html());
+                        $('#ajax-boss-hp').html($boss_hp.html());
+                        $('#boss-damage').html($boss_damage.html());
+                        $('#player-damage').html($player_damage.html());
+                        
+                        if(command != "boss"){
+                            AjaxGetBossHp(judgeWin,"boss");
+                        }
+
+                    // 通信エラー時に呼び出されるコールバック
+                    }).fail(function(mdg){
+
+                        alert("Ajax通信エラー");
+                });
             }
-        });
 
-        }
+            //ボスの残りHPを取得
+            function AjaxGetBossHp(callback,target) {
+                // jQueryのajaxメソッドを使用しajax通信
+                $.ajax({
+                    type: "POST", // POSTメソッドで通信
 
+                    url: "ajaxGetBossHp.php", // 取得先のURL
 
-        //バトルで攻撃・魔法をクリックした場合の処理
-        $(document).on('click', function(e) {
-            if($(e.target).is($('.js-attack')) || $(e.target).is($('.js-magic')) ){
-                AjaxBattle($(e.target).data('command'));
+                    data: { get_hp : target },
+
+                    cache: false, // キャッシュしないで読み込み
+                
+
+                    // 通信成功時に呼び出されるコールバック
+                    success: function (data) {
+
+                        callback(data);
+
+                    },
+                    // 通信エラー時に呼び出されるコールバック
+                    error: function () {
+
+                        alert("Ajax通信エラー");
+
+                    }
+                });
             }
-        });
 
+            //プレイヤーの残りHPを取得
+            function AjaxGetPlayerHp(callback,target) {
+                // jQueryのajaxメソッドを使用しajax通信
+                $.ajax({
+                    type: "POST", // POSTメソッドで通信
 
+                    url: "ajaxGetPlayerHp.php", // 取得先のURL
 
-    </script>
+                    data: { get_hp : target },
+
+                    cache: false, // キャッシュしないで読み込み
+                
+
+                    // 通信成功時に呼び出されるコールバック
+                    success: function (data) {
+                        console.log(target+'の残りHP：'+data);
+                        callback(data);
+                    },
+                    // 通信エラー時に呼び出されるコールバック
+                    error: function () {
+
+                        alert("Ajax通信エラー");
+
+                    }
+                });
+            }
+
+            //バトルで攻撃・魔法をクリックした場合の処理
+            $(document).on('click', function(e) {
+                if($(e.target).is($('.js-attack')) || $(e.target).is($('.js-magic')) ){
+                    AjaxBattle($(e.target).data('command'));
+                }
+            });
+            //負けた場合の処理   
+            function judgeLose(player_hp){
+                if(player_hp <= 0){
+                    $('.popup-lose').show();
+                }
+            }
+
+            //プレイヤーが攻撃した場合の処理・勝った場合の処理   
+            function judgeWin(boss_hp){
+
+                    if(boss_hp <= 0){
+                        
+                        $('#boss-damage').children('span').hide();
+                        $('.boss-img').fadeOut(1000);
+                        setTimeout(() => {
+                                $('.popup-win').show();
+                            },1000)
+                    } else {
+                        //ボスのHPがゼロじゃなかった場合の画面処理
+                        let promise = new Promise((resolve, reject) => { // #1
+                            setTimeout(() => {
+                            resolve($('#boss-damage').children('span').fadeOut())
+                            },500)
+                        })
+
+                        promise.then(() => { // #2
+                            return new Promise((resolve, reject) => {
+                                setTimeout(() =>{
+                                console.log('ポップアップ表示：ボスの攻撃');
+                                resolve($('.popup-3').show())
+                                },500)
+                            })
+                        }).then(() => { // #3
+                            return new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                console.log('ポップアップを消す')
+                                resolve($('.popup-3').hide())
+                                },1000)
+                            })
+                        }).then(() => { // #3
+                            return new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                resolve( AjaxBattle("boss") )
+                                },500)
+                            })
+                        }).then(() => {
+                            return new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                resolve($('#player-damage').children('span').fadeOut())
+                                },500)
+                            })
+                        }).then(() => {
+                            //ボスの攻撃が終わった後のプレイヤーの残りHPの判定
+                            AjaxGetPlayerHp(judgeLose,"Player");
+                            
+                        }).catch(() => { // エラーハンドリング
+                            console.error('Something wrong!')
+                        
+                        });
+                    }
+            }
+
+        </script>
+    </footer>
     </body>
 </html>
